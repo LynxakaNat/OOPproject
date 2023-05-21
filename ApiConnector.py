@@ -5,7 +5,7 @@ import requests
 
 # Here we are setting the API
 class ApiConnector(object):
-    baseURL = "https://www.warcraftlogs.com:443/api/v2/client"
+    base_url = "https://www.warcraftlogs.com:443/api/v2/client"
     oauth_auth_uri = "https://www.warcraftlogs.com/oauth/authorize"
     token_url = "https://www.warcraftlogs.com/oauth/token"
     current_oauth_token = None
@@ -36,10 +36,10 @@ class ApiConnector(object):
         auth = requests.auth.HTTPBasicAuth(self.client_id, self.secret_key)
         data = {"grant_type": "client_credentials"}
         response = requests.post(self.token_url, data=data, auth=(self.client_id, self.secret_key))
-        print(response.status_code)
+        # print(response.status_code)
         resp = response.json()
         # print(resp)
-        print(response.headers)
+        # print(response.headers)
         self.current_oauth_token = resp["access_token"]
         self.current_oauth_token_expiry = (datetime.now() + timedelta(seconds=resp["expires_in"]))
 
@@ -59,20 +59,17 @@ class ApiConnector(object):
         else:
             return
 
-    def Request(self, query):
+    def Request(self, query: str):
+        """
+        :param query: This is what we want to request from WCL
+        :return: It returns the response from the WCL API for the query we gave it
         """
 
-        :param query: This is what we want to request from Warcraft Logs
-        :return: Returns the response from the WCL API for the query we gave it
-
-        """
-        self.RenewToken()  # we always want to check if the token has not expired
-        url = self.baseURL
-        headers = {
-            "authorization": "Bearer {}".format(self.current_oauth_token),
-            "accept": "application/json"
-        }
+        self.RenewToken()  # We always want to check if our access token is not expired.
+        url = self.base_url  #
+        headers = {"authorization": "Bearer {}".format(self.current_oauth_token),
+                   "accept": "application/json"}
         response = requests.get(url, json={'query': query}, headers=headers)
-        # print(response.url + " " + str(response.status_code))
-        response.raise_for_status()
+
+        response.raise_for_status()  # This takes care of some error checking
         return response.json()
