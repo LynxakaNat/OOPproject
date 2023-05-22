@@ -2,6 +2,9 @@ from datetime import timedelta, datetime
 
 import discord
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+np.array([])
 
 import ToxicityBot
 from ApiConnector import *
@@ -24,14 +27,31 @@ def main():
     query = """
     query {
      reportData {
-      report(code: "vhfX2c9TVPGy7WbN") {rankings(playerMetric : hps)}
+      report(code: "YcKV2Mh7WQgLytzJ") {rankings(playerMetric : hps)}
       } 
       }
       """
     data = connector.Request(query)
-    print(data)
-    df = pd.DataFrame(data)
-    print(df)
+    # print(data)
+    flat_d = pd.json_normalize(data)
+    flat_d = pd.json_normalize(flat_d.iloc[0])
+    flat_d = pd.json_normalize(flat_d.iloc[0])
+    df = pd.DataFrame(flat_d)
+    #print(df)
+    """with pd.option_context('display.max_rows', None,
+                           'display.max_columns', None,
+                           'display.precision', 3,
+                           ):
+        print(df)"""
+    healers = df['roles.healers.characters']
+    df_healers = pd.DataFrame(healers.iloc[1])
+    with pd.option_context('display.max_rows', None,
+                           'display.max_columns', None,
+                           'display.precision', 3,
+                           ):
+        print(df_healers)
+    plt.bar(df_healers['name'], df_healers["amount"])
+    plt.show()
 
 if __name__ == "__main__":
     main()
