@@ -4,7 +4,10 @@ import discord
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-np.array([])
+
+from RaiderIOApiConnector import *
+from RaiderIOParser import *
+
 
 import ToxicityBot
 from ApiConnector import *
@@ -18,13 +21,16 @@ base_url = "https://www.warcraftlogs.com/api/v2/client"'''
 
 
 def main():
-    connector = ApiConnector("9932bc5b-bba5-45e8-bfc4-82cf2c4c4877", "qvukkWRBpLLgumxlFrP82zC8mEeDLmFeoPcIXgdj")
+    # connector = ApiConnector("9932bc5b-bba5-45e8-bfc4-82cf2c4c4877", "qvukkWRBpLLgumxlFrP82zC8mEeDLmFeoPcIXgdj")
     # intents = discord.Intents.default()
     # intents.message_content = True
     #query = """query { reportData { report(code: "bXZK8LBV7Hk4rR2j") {title}} }"""
     #data = ApiConnector.Request(query=query)
+    client = RaiderIOParser(RaiderIOApiConnector())
+    data = client.ParseAffix("eu", "en")
+    print(data)
 
-    query = """
+    '''query = """
     query {
      reportData {
       report(code: "YcKV2Mh7WQgLytzJ") {rankings(playerMetric : hps)}
@@ -51,7 +57,7 @@ def main():
                            ):
         print(df_healers)
     plt.bar(df_healers['name'], df_healers["amount"])
-    plt.show()
+    plt.show()'''
 
 if __name__ == "__main__":
     main()
@@ -59,4 +65,4 @@ if __name__ == "__main__":
 
 
     # client = ToxicityBot.ToxicityBot(intents=intents)
-    # client.run(BOTTOKEN)
+    # client.run(BOTTOKEN)'''
