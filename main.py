@@ -10,12 +10,14 @@ from RaiderIOParser import *
 
 
 import ToxicityBot
-from ApiConnector import *
+from WCLApiConnector import *
 import requests
 
-'''client_id = "9932bc5b-bba5-45e8-bfc4-82cf2c4c4877"
+from WCLParser import WCLParser
+
+client_id = "9932bc5b-bba5-45e8-bfc4-82cf2c4c4877"
 secret_key = "qvukkWRBpLLgumxlFrP82zC8mEeDLmFeoPcIXgdj"
-auth_url = "https://www.warcraftlogs.com/oauth/authorize"
+'''auth_url = "https://www.warcraftlogs.com/oauth/authorize"
 token_url = "https://www.warcraftlogs.com/oauth/token"
 base_url = "https://www.warcraftlogs.com/api/v2/client"'''
 
@@ -29,7 +31,11 @@ def main():
     client = RaiderIOParser(RaiderIOApiConnector())
     data = client.ParseAffix("eu", "en")
     print(data)
-
+def main2():
+    WCL = WCLApiConnector(client_id, secret_key)
+    parser = WCLParser(WCL)
+    data = parser.ParseRanking("WqBL8M2wKJt7xXd3", "hps")
+    print(data.to_string())
     '''query = """
     query {
      reportData {
@@ -60,8 +66,8 @@ def main():
     plt.show()'''
 
 if __name__ == "__main__":
-    main()
-
+    # main()
+    main2()
 
 
     # client = ToxicityBot.ToxicityBot(intents=intents)

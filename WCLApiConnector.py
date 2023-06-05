@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta
 
 import requests
+from ApiClient import *
 
 
 # Here we are setting the API
-class ApiConnector(object):
+class WCLApiConnector(ApiClient):
     base_url = "https://www.warcraftlogs.com:443/api/v2/client"
     oauth_auth_uri = "https://www.warcraftlogs.com/oauth/authorize"
     token_url = "https://www.warcraftlogs.com/oauth/token"
@@ -30,16 +31,11 @@ class ApiConnector(object):
         Creates a new OAuth session for WCL
         :return: this function does not return anything
         """
-        # Me: hey server my name is Lynx I want to get access
-        # Server : hey this is the info now gtfo
         # This allows us to let requests.post take care of the OAuth
         auth = requests.auth.HTTPBasicAuth(self.client_id, self.secret_key)
         data = {"grant_type": "client_credentials"}
         response = requests.post(self.token_url, data=data, auth=(self.client_id, self.secret_key))
-        # print(response.status_code)
         resp = response.json()
-        # print(resp)
-        # print(response.headers)
         self.current_oauth_token = resp["access_token"]
         self.current_oauth_token_expiry = (datetime.now() + timedelta(seconds=resp["expires_in"]))
 
@@ -59,8 +55,9 @@ class ApiConnector(object):
         else:
             return
 
-    def Request(self, query: str):
+    def Request(self, url: str, query: str):
         """
+        :param url: full URL of the request
         :param query: This is what we want to request from WCL
         :return: It returns the response from the WCL API for the query we gave it
         """
