@@ -34,8 +34,9 @@ def main():
 def main2():
     WCL = WCLApiConnector(client_id, secret_key)
     parser = WCLParser(WCL)
-    data = parser.ParseRanking("WqBL8M2wKJt7xXd3", "hps")
-    print(data.to_string())
+    # data = parser.ParseRanking("WqBL8M2wKJt7xXd3", "dps")
+    data = parser.ParseGuild("Memes and Depletes", "Draenor", "EU")
+    print(data)
     '''query = """
     query {
      reportData {
