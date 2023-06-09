@@ -18,7 +18,7 @@ from WCLParser import WCLParser
 client_id = "9932bc5b-bba5-45e8-bfc4-82cf2c4c4877"
 secret_key = "qvukkWRBpLLgumxlFrP82zC8mEeDLmFeoPcIXgdj"
 '''auth_url = "https://www.warcraftlogs.com/oauth/authorize"
-token_url = "https://www.warcraftlogs.com/oauth/token"
+token_url = "https://www.warcraftlogs.com/oauth/token"  
 base_url = "https://www.warcraftlogs.com/api/v2/client"'''
 
 
@@ -26,16 +26,17 @@ def main():
     # connector = ApiConnector("9932bc5b-bba5-45e8-bfc4-82cf2c4c4877", "qvukkWRBpLLgumxlFrP82zC8mEeDLmFeoPcIXgdj")
     # intents = discord.Intents.default()
     # intents.message_content = True
-    #query = """query { reportData { report(code: "bXZK8LBV7Hk4rR2j") {title}} }"""
-    #data = ApiConnector.Request(query=query)
+        #query = """query { reportData { report(code: "bXZK8LBV7Hk4rR2j") {title}} }"""
+        #data = ApiConnector.Request(query=query)
     client = RaiderIOParser(RaiderIOApiConnector())
     data = client.ParseAffix("eu", "en")
     print(data)
 def main2():
     WCL = WCLApiConnector(client_id, secret_key)
+    data = WCL.RequestEvent("cVvnhfD3zagRJrTF")
     parser = WCLParser(WCL)
-    # data = parser.ParseRanking("WqBL8M2wKJt7xXd3", "dps")
-    data = parser.ParseGuild("Memes and Depletes", "Draenor", "EU")
+    data = parser.ParseFight("vkMyAmQbKawJhF9B")
+    # data = parser.ParseGuild("Memes and Depletes", "Draensor", "EU")
     print(data)
     '''query = """
     query {

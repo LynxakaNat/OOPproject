@@ -10,38 +10,43 @@ class WCLParser:
         self.client = client
 
     def ParseRanking(self, log_code: str, rank_type:str):
-        query = """
-            query {
-             reportData {
-              report(code: \"""" + log_code + """\") {rankings(playerMetric : """+rank_type+""")
-                    }
-                } 
-              }"""
-        data = self.client.Request(self.client.base_url, query)
-        # print(data)
-        data2 = data['data']['reportData']['report']['rankings']['data']
-        df = pd.DataFrame(data2).set_index('fightID')
-        df2 = pd.DataFrame(df['roles'])
-        df3 = pd.DataFrame(df2['roles'].iloc[0])
-        healers = pd.DataFrame(df3['healers']['characters'])
-        tanks = pd.DataFrame(df3['tanks']['characters'])
-        dps = pd.DataFrame(df3['dps']['characters'])
+        
+        raw_data = self.client.RequestRanking(log_code, rank_type) # this is the data we get from the API
+        unpacked_data = raw_data['data']['reportData']['report']['rankings']['data']
+        # We now want to transform the data into a proper DataFrame
+        parsed_df = pd.DataFrame(unpacked_data).set_index('fightID')
+        # We set the index to the fightID in order to be able to clearly differentiate amongst different encounters
+        df2 = pd.DataFrame(parsed_df['roles'])
+        # -> unpack the dictonaries per fight to a dataframe
+        df_final = pd.DataFrame(df2['roles'].iloc[0])
+        # Here we are grouping the roles into three individual dataframes so we can then put them in order
+        # tanks -> healers -> dps - using pd.concat
+        tanks = pd.DataFrame(df_final['tanks']['characters'])
+        healers = pd.DataFrame(df_final['healers']['characters'])
+        dps = pd.DataFrame(df_final['dps']['characters'])
         frames = [tanks, healers, dps]
+        # We set the index to names  in order to be able to use it later in the discord bot input 
         return pd.concat(frames).set_index('name')
 
     def ParseGuild(self, guild_name : str, serv_name : str, server_reg : str):
-        query = """
-            query {
-             guildData {
-              guild(name: \"""" + guild_name + """\", serverSlug: \"""" + serv_name + """\", serverRegion: \"""" + server_reg + """\"){
-              members { data {name level faction {name}}} 
-              }
-                    }
-              }
-              """
-        data = self.client.Request(self.client.base_url, query)
-        data2 = data['data']['guildData']['guild']['members']['data']
-        data3 = pd.DataFrame(data2).set_index('name')
-        data3['faction'] = data3['faction'].apply(lambda x: x['name'])
+
+        raw_data = self.client.RequestGuild(guild_name, serv_name, server_reg)
+        unpacked_data = raw_data['data']['guildData']['guild']['members']['data']
+        parsed_data = pd.DataFrame(unpacked_data).set_index('name')
+        # We set the index to name rather than fightID because it is a neat way for the discord bot input
+        parsed_data['faction'] = parsed_data    ['faction'].apply(lambda x: x['name'])
+        # We have to unpack the dictionary of the faction since it has one entry, to make it more readable
         
-        return data3
+        return parsed_data
+    
+    def ParseFight(self, log_code : str):
+        raw_data = self.client.RequestFight(log_code)
+        unpacked_data = raw_data['data']['reportData']['report']['fights']
+        parsed_df = pd.DataFrame(unpacked_data).set_index('id')
+        # We know boss fights are under kill column labeled either True or False
+        # Thrash fights are of str None -> so we want to get rid of them to have
+        # boss fights
+        parsed_df = parsed_df[(parsed_df['kill'] == True)| (parsed_df['kill'] == False)]
+        return parsed_df 
+    def ParseEvents(self, log_code : str):
+        pass

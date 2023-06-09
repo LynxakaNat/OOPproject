@@ -70,3 +70,63 @@ class WCLApiConnector(ApiClient):
 
         response.raise_for_status()  # This takes care of some error checking
         return response.json()
+    
+    def RequestGuild(self, guild_name : str, serv_name : str, server_reg: str):
+        
+        query = """
+            query {
+             guildData {
+              guild(name: \"""" + guild_name + """\", serverSlug: \"""" + serv_name + """\", serverRegion: \"""" + server_reg + """\"){
+              members { data {name level faction {name}}} 
+              }
+                    }
+              }
+              """
+        data = self.Request(self.base_url, query)
+        return data
+    
+    def RequestRanking(self,  log_code: str, rank_type:str):
+
+        query = """
+            query {
+             reportData {
+              report(code: \"""" + log_code + """\") {rankings(playerMetric : """+rank_type+""")
+                    }
+                } 
+              }"""
+        
+        data = self.Request(self.base_url, query)
+        return data
+
+    def RequestFight(self, log_code : str):
+        query = """
+            query {
+             reportData {
+              report(code: \"""" + log_code + """\") {fights {  
+                id
+                name    
+                bossPercentage
+                averageItemLevel
+                difficulty
+                encounterID
+                endTime
+                fightPercentage
+                kill
+                 }
+            }
+                    }
+
+              }"""
+        data = self.Request(self.base_url, query)
+        return data
+        
+    def RequestEvent(self, log_code : str, fight_ids : str ):
+        query = """
+            query {
+             reportData {
+              report(code: \"""" + log_code + """\") {events (fightIDs: \"""" + fight_ids + """\"){data}
+                    
+
+              }}}"""
+        data = self.Request(self.base_url, query)
+        return data
