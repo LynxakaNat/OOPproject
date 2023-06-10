@@ -48,5 +48,4 @@ class WCLParser:
         # boss fights
         parsed_df = parsed_df[(parsed_df['kill'] == True)| (parsed_df['kill'] == False)]
         return parsed_df 
-    def ParseEvents(self, log_code : str):
-        pass
+   

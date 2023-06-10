@@ -110,6 +110,7 @@ class WCLApiConnector(ApiClient):
                 difficulty
                 encounterID
                 endTime
+        
                 fightPercentage
                 kill
                  }
@@ -119,14 +120,4 @@ class WCLApiConnector(ApiClient):
               }"""
         data = self.Request(self.base_url, query)
         return data
-        
-    def RequestEvent(self, log_code : str, fight_ids : str ):
-        query = """
-            query {
-             reportData {
-              report(code: \"""" + log_code + """\") {events (fightIDs: \"""" + fight_ids + """\"){data}
-                    
-
-              }}}"""
-        data = self.Request(self.base_url, query)
-        return data
+   

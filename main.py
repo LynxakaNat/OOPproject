@@ -7,6 +7,7 @@ import numpy as np
 
 from RaiderIOApiConnector import *
 from RaiderIOParser import *
+BOTTOKEN = "MTEwOTA2NDU2NDE2OTAwMzEwMA.GrlyFw.oSJwLttDBtQ2XMswgAcCwqz_gUuXFUWw_jD31M"   
 
 
 import ToxicityBot
@@ -31,9 +32,18 @@ def main():
     client = RaiderIOParser(RaiderIOApiConnector())
     data = client.ParseAffix("eu", "en")
     print(data)
+
+def main3():
+    
+    intents = discord.Intents.default()
+    intents.message_content = True
+    client = ToxicityBot.ToxicityBot(intents=intents, command_prefix='!')
+    client.run(BOTTOKEN)
+
+
 def main2():
     WCL = WCLApiConnector(client_id, secret_key)
-    data = WCL.RequestEvent("cVvnhfD3zagRJrTF")
+    # data = WCL.RequestEvent("cVvnhfD3zagRJrTF")
     parser = WCLParser(WCL)
     data = parser.ParseFight("vkMyAmQbKawJhF9B")
     # data = parser.ParseGuild("Memes and Depletes", "Draensor", "EU")
@@ -69,7 +79,7 @@ def main2():
 
 if __name__ == "__main__":
     # main()
-    main2()
+    main3()
 
 
     # client = ToxicityBot.ToxicityBot(intents=intents)
