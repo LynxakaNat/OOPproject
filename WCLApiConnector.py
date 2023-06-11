@@ -72,6 +72,13 @@ class WCLApiConnector(ApiClient):
         return response.json()
     
     def RequestGuild(self, guild_name : str, serv_name : str, server_reg: str):
+        """
+
+        :param guild_name: name of the guild whose members we want to check
+        :param serv_name: name of the server of the guild
+        :param server_reg: region of the guild server
+        :return: It returns the response from the WCL API for the guild query we gave it
+        """
         
         query = """
             query {
@@ -86,6 +93,12 @@ class WCLApiConnector(ApiClient):
         return data
     
     def RequestRanking(self,  log_code: str, rank_type:str):
+        """
+
+        :param log_code: the code of the log we want the API to read
+        :param rank_type: the type of ranking which we want to compare hps/dps
+        :return: returns the response from the WCL API for the ranking query we gave it
+        """
 
         query = """
             query {
@@ -99,6 +112,11 @@ class WCLApiConnector(ApiClient):
         return data
 
     def RequestFight(self, log_code : str):
+        """
+
+        :param log_code:  the code of the log we want the API to read
+        :return: returns the response from the WCL API for the fight query we gave it
+        """
         query = """
             query {
              reportData {
@@ -110,7 +128,6 @@ class WCLApiConnector(ApiClient):
                 difficulty
                 encounterID
                 endTime
-        
                 fightPercentage
                 kill
                  }

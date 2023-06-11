@@ -7,7 +7,7 @@ import numpy as np
 
 from RaiderIOApiConnector import *
 from RaiderIOParser import *
-BOTTOKEN = "MTEwOTA2NDU2NDE2OTAwMzEwMA.GrlyFw.oSJwLttDBtQ2XMswgAcCwqz_gUuXFUWw_jD31M"   
+BOTTOKEN = "MTEwOTA2NDU2NDE2OTAwMzEwMA.GWkKcQ.SJSvERe_O69qZ8hq7x0dps7y6uXg3AEUttqIh0"
 
 
 import ToxicityBot
@@ -45,8 +45,8 @@ def main2():
     WCL = WCLApiConnector(client_id, secret_key)
     # data = WCL.RequestEvent("cVvnhfD3zagRJrTF")
     parser = WCLParser(WCL)
-    data = parser.ParseFight("vkMyAmQbKawJhF9B")
-    # data = parser.ParseGuild("Memes and Depletes", "Draensor", "EU")
+    # data = parser.ParseFight("vkMyAmQbKawJhF9B")
+    data = parser.ParseGuild("Memes and Depletes", "Draenor", "EU")
     print(data)
     '''query = """
     query {
