@@ -7,7 +7,7 @@ import numpy as np
 
 from RaiderIOApiConnector import *
 from RaiderIOParser import *
-BOTTOKEN = "MTEwOTA2NDU2NDE2OTAwMzEwMA.GWkKcQ.SJSvERe_O69qZ8hq7x0dps7y6uXg3AEUttqIh0"
+
 
 
 import ToxicityBot
@@ -30,8 +30,12 @@ def main():
         #query = """query { reportData { report(code: "bXZK8LBV7Hk4rR2j") {title}} }"""
         #data = ApiConnector.Request(query=query)
     client = RaiderIOParser(RaiderIOApiConnector())
-    data = client.ParseAffix("eu", "en")
-    print(data)
+    data = client.ParseChar("eu","Draenor", "Drynxie","mythic_plus_scores_by_season:current")
+    colour = data["mythic_plus_scores_by_season"][0]['segments']['all']['color']
+    colour = colour.split("#")[1]
+    colour = "0x" + colour
+    colour = int(colour)
+    print(type(colour))
 
 def main3():
     
@@ -42,12 +46,7 @@ def main3():
 
 
 def main2():
-    WCL = WCLApiConnector(client_id, secret_key)
-    # data = WCL.RequestEvent("cVvnhfD3zagRJrTF")
-    parser = WCLParser(WCL)
-    # data = parser.ParseFight("vkMyAmQbKawJhF9B")
-    data = parser.ParseGuild("Memes and Depletes", "Draenor", "EU")
-    print(data)
+
     '''query = """
     query {
      reportData {

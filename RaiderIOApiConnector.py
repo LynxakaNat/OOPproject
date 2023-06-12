@@ -32,7 +32,7 @@ class RaiderIOApiConnector(ApiClient):
         if field is None:
             params = {'region': region, 'realm': realm, 'name': character}
         else:
-            params = {'region': region, 'realm': realm, 'name': character, 'field': field}
+            params = {'region': region, 'realm': realm, 'name': character, 'fields': field}
         return self.Request(url,query=params)
 
     def RequestAffix(self, region: str, locale: str):
@@ -45,3 +45,4 @@ class RaiderIOApiConnector(ApiClient):
         url = self.base_url + "/api/v1/mythic-plus/affixes"
         params = {'region': region, 'locale': locale}
         return self.Request(url, query=params)
+

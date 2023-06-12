@@ -7,15 +7,15 @@ from tabulate import *
 
 
 class WCLCog(commands.Cog):
-    parser = None
+    wcl_parser = None
 
     def __init__(self, bot: commands.Bot, parser: WCLParser):
         self.bot = bot
-        self.parser = parser
+        self.wcl_parser = parser
 
     @commands.command()
     async def hps(self, ctx, log):
-        data = self.parser.ParseRanking(log, 'hps')
+        data = self.wcl_parser.ParseRanking(log, 'hps')
         sorted_data = data.sort_values('amount', ascending=False)
         samples = sorted_data[:5]
         plt.bar(samples.index, samples['amount'])
@@ -24,7 +24,7 @@ class WCLCog(commands.Cog):
 
     @commands.command()
     async def dps(self, ctx, log):
-        data = self.parser.ParseRanking(log, 'dps')
+        data = self.wcl_parser.ParseRanking(log, 'dps')
         sorted_data = data.sort_values('amount', ascending=False)
         samples = sorted_data[:5]
         plt.bar(samples.index, samples['amount'])
@@ -33,7 +33,7 @@ class WCLCog(commands.Cog):
 
     @commands.command()
     async def kills(self, ctx, log):
-        data = self.parser.ParseFight(log)
+        data = self.wcl_parser.ParseFight(log)
 
         data = data[(data['kill'] == True)]
         amount = len(data)
@@ -45,7 +45,7 @@ class WCLCog(commands.Cog):
 
     @commands.command()
     async def wipes(self, ctx, log):
-        data = self.parser.ParseFight(log)
+        data = self.wcl_parser.ParseFight(log)
         data = data[(data['kill'] == False)]
         blank_index = [''] * len(data)
         data.index = blank_index
@@ -56,7 +56,7 @@ class WCLCog(commands.Cog):
 
     @commands.command()
     async def members(self, ctx, guild_name, serv_name, server_reg):
-        data = self.parser.ParseGuild(guild_name, serv_name, server_reg)
+        data = self.wcl_parser.ParseGuild(guild_name, serv_name, server_reg)
         embeded_mess = discord.Embed(title="Those are the lovely members of " + guild_name, description=(
                 "```" + tabulate(data) + "```"), color=0x394A8C)
 
