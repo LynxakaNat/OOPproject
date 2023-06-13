@@ -46,3 +46,9 @@ class RaiderIOApiConnector(ApiClient):
         params = {'region': region, 'locale': locale}
         return self.Request(url, query=params)
 
+    def RequestMythicRun(self, season, run_id):
+        url = self.base_url + "/api/v1/mythic-plus/run-details"
+        params = {'season': season, 'id': run_id}
+        return self.Request(url, query=params)
+
+

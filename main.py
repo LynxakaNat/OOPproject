@@ -24,7 +24,7 @@ base_url = "https://www.warcraftlogs.com/api/v2/client"'''
 
 
 def main():
-    # connector = ApiConnector("9932bc5b-bba5-45e8-bfc4-82cf2c4c4877", "qvukkWRBpLLgumxlFrP82zC8mEeDLmFeoPcIXgdj")
+    # connector = ApiConnector("9932bc5b-bba5-45e8-bfc4-82cf2c4c4877", "qvukkWRBpLLgumxlFrP82zC8mEeDLmFoPcIXgdj")
     # intents = discord.Intents.default()
     # intents.message_content = True
         #query = """query { reportData { report(code: "bXZK8LBV7Hk4rR2j") {title}} }"""

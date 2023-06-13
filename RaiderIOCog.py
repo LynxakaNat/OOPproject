@@ -83,9 +83,10 @@ class RaiderIOCog(commands.Cog):
                 data['mythic_plus_recent_runs'][run]['num_keystone_upgrades'] = "no"
             run += 1
         embeded_mess = discord.Embed(title="3 most recent mythic+ runs", color=0x394A8C)
-        embeded_mess.add_field(name=f"{data['mythic_plus_recent_runs'][0]['dungeon']}", value=f">Key level: {data['mythic_plus_recent_runs'][0]['mythic_level']}\n>"
-                                                                                              f"Clear time: { data['mythic_plus_recent_runs'][0]['clear_time_ms']}\n>"
-                                                                                              f"Key timed: {data['mythic_plus_recent_runs'][0]['num_keystone_upgrades']}")
+        embeded_mess.add_field(name=f"{data['mythic_plus_recent_runs'][0]['dungeon']}",
+                               value=f">Key level: {data['mythic_plus_recent_runs'][0]['mythic_level']}\n>"
+                                    f"Clear time: { data['mythic_plus_recent_runs'][0]['clear_time_ms']}\n>"
+                                    f"Key timed: {data['mythic_plus_recent_runs'][0]['num_keystone_upgrades']}")
         embeded_mess.add_field(name=f"{data['mythic_plus_recent_runs'][1]['dungeon']}",
                                value=f">Key level: {data['mythic_plus_recent_runs'][1]['mythic_level']}\n>"
                                      f"Clear time: {data['mythic_plus_recent_runs'][1]['clear_time_ms']}\n>"
@@ -96,3 +97,94 @@ class RaiderIOCog(commands.Cog):
                                      f"Key timed: {data['mythic_plus_recent_runs'][2]['num_keystone_upgrades']} ")
 
         await ctx.send(embed=embeded_mess)
+
+    @commands.command()
+    async def bestruns(self,ctx, character: str, realm: str, region: str):
+        field = "mythic_plus_best_runs"
+        data = self.raider_parser.ParseChar(region, realm, character, field)
+        run = 0
+        for run in range(3):
+            data['mythic_plus_best_runs'][run]['clear_time_ms'] = str(
+                (int(data['mythic_plus_best_runs'][run]['clear_time_ms']) // 60000)) \
+                                                                    + ":" + str(
+                int((int(data['mythic_plus_best_runs'][run]['clear_time_ms']) % 60000) / 1000))
+            if int(data['mythic_plus_best_runs'][run]['num_keystone_upgrades']) > 0:
+                data['mythic_plus_best_runs'][run]['num_keystone_upgrades'] = "yes"
+            else:
+                data['mythic_plus_best_runs'][run]['num_keystone_upgrades'] = "no"
+            run += 1
+            embeded_mess = discord.Embed(title="3 best mythic+ runs", color=0x394A8C)
+            embeded_mess.add_field(name=f"{data['mythic_plus_best_runs'][0]['dungeon']}",
+                                   value=f">Key level: {data['mythic_plus_best_runs'][0]['mythic_level']}\n>"
+                                         f"Clear time: {data['mythic_plus_best_runs'][0]['clear_time_ms']}\n>"
+                                         f"Key timed: {data['mythic_plus_best_runs'][0]['num_keystone_upgrades']}\n>"
+                                         f"Main affix: {data['mythic_plus_best_runs'][0]['affixes'][0]['name']}")
+            embeded_mess.add_field(name=f"{data['mythic_plus_best_runs'][1]['dungeon']}",
+                                   value=f">Key level: {data['mythic_plus_best_runs'][1]['mythic_level']}\n>"
+                                         f"Clear time: {data['mythic_plus_best_runs'][1]['clear_time_ms']}\n>"
+                                         f"Key timed: {data['mythic_plus_best_runs'][1]['num_keystone_upgrades']} \n>"
+                                         f"Main affix: {data['mythic_plus_best_runs'][1]['affixes'][0]['name']}")
+            embeded_mess.add_field(name=f"{data['mythic_plus_best_runs'][2]['dungeon']}",
+                                   value=f">Key level: {data['mythic_plus_best_runs'][2]['mythic_level']}\n>"
+                                         f"Clear time: {data['mythic_plus_best_runs'][2]['clear_time_ms']}\n>"
+                                         f"Key timed: {data['mythic_plus_best_runs'][2]['num_keystone_upgrades']} \n>"
+                                         f"Main affix: {data['mythic_plus_best_runs'][0]['affixes'][0]['name']}")
+
+        await ctx.send(embed=embeded_mess)
+
+    @commands.command()
+    async def affix(self, ctx, region: str, locale: str = None ):
+        if locale is None:
+            data = self.raider_parser.ParseAffix(region,"en")
+        else:
+            data = self.raider_parser.ParseAffix(region, locale)
+        embeded_mess = discord.Embed(title="This week's affixes are:", color=0x394A8C)
+        embeded_mess.add_field(name=f"{data['affix_details'][0]['name']}", value=f"Description: {data['affix_details'][0]['description']}")
+        embeded_mess.add_field(name=f"{data['affix_details'][1]['name']}",
+                               value=f"Description: {data['affix_details'][1]['description']}")
+        embeded_mess.add_field(name=f"{data['affix_details'][2]['name']}",
+                               value=f"Description: {data['affix_details'][2]['description']}")
+
+        await ctx.send(embed=embeded_mess)
+
+    @commands.command()
+    async def run(self,ctx, run_id: str, season: str = None):
+        run_id = (run_id.split("-")[4]).split("/")[1]
+        if season is None:
+            data = self.raider_parser.ParseMythicRun('season-df-2', run_id)
+        else:
+            data = self.raider_parser.ParseMythicRun(season, run_id)
+        time = str(
+                (int(data['clear_time_ms']) // 60000)) + ":" + str(
+                int((int(data['clear_time_ms']) % 60000) / 1000))
+        if data['time_remaining_ms'] > 0:
+            descr = "yes"
+        else:
+            descr = "no"
+        embeded_mess = discord.Embed(title=f"{data['dungeon']['name']}", color=0x394A8C)
+        embeded_mess.add_field(name=f"Keystone level:", value=data['mythic_level'],inline=False)
+        embeded_mess.add_field(name=f"Time of completion:", value=time, inline=False)
+        embeded_mess.add_field(name=f"Peeps:", value=f"{data['roster'][0]['character']['name']} "
+                                                     f"- {data['roster'][0]['character']['spec']['name']} {data['roster'][0]['character']['class']['name']} ({data['roster'][0]['character']['spec']['role']})\n"
+                                                     f"**item level:** {data['roster'][0]['items']['item_level_equipped']}\n"
+                                                     f"{data['roster'][1]['character']['name']} - {data['roster'][1]['character']['spec']['name']} "
+                                                     f"{data['roster'][1]['character']['class']['name']} ({data['roster'][1]['character']['spec']['role']})\n"
+                                                     f"**item level:** {data['roster'][1]['items']['item_level_equipped']}\n"
+                                                     f"{data['roster'][2]['character']['name']} "
+                                                     f"- {data['roster'][2]['character']['spec']['name']} {data['roster'][2]['character']['class']['name']} ({data['roster'][2]['character']['spec']['role']}) \n"
+                                                     f"**item level:** {data['roster'][2]['items']['item_level_equipped']}\n"
+                                                     f"{data['roster'][3]['character']['name']} "
+                                                     f"- {data['roster'][3]['character']['spec']['name']} {data['roster'][3]['character']['class']['name']} ({data['roster'][3]['character']['spec']['role']})\n"
+                                                     f"**item level:** {data['roster'][3]['items']['item_level_equipped']}\n"
+                                                     f"{data['roster'][4]['character']['name']} "
+                                                     f"- {data['roster'][4]['character']['spec']['name']} {data['roster'][4]['character']['class']['name']} ({data['roster'][4]['character']['spec']['role']})\n"
+                                                     f"**item level:** {data['roster'][4]['items']['item_level_equipped']}\n", inline=False)
+        embeded_mess.add_field(name=f"Deaths:", value=len(data['logged_details']['deaths']))
+        embeded_mess.add_field(name=f"Keystone timed:", value=f"{descr}")
+        picture = "https://cdnassets.raider.io" + data['dungeon']['icon_url']
+        embeded_mess.set_thumbnail(url=picture)
+        await ctx.send(embed=embeded_mess)
+
+
+
+

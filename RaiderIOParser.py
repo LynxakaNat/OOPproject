@@ -38,3 +38,9 @@ class RaiderIOParser:
         data = self.client.RequestAffix(region, locale)
         df = pd.Series(data)
         return df
+
+    def ParseMythicRun(self, season, run_id: str):
+        data = self.client.RequestMythicRun(season, run_id)
+        df = pd.Series(data)
+        return df
+

@@ -15,6 +15,7 @@ class WCLCog(commands.Cog):
 
     @commands.command()
     async def hps(self, ctx, log):
+        log = log.split("/")[4]
         data = self.wcl_parser.ParseRanking(log, 'hps')
         sorted_data = data.sort_values('amount', ascending=False)
         samples = sorted_data[:5]
@@ -24,6 +25,7 @@ class WCLCog(commands.Cog):
 
     @commands.command()
     async def dps(self, ctx, log):
+        log = log.split("/")[4]
         data = self.wcl_parser.ParseRanking(log, 'dps')
         sorted_data = data.sort_values('amount', ascending=False)
         samples = sorted_data[:5]
@@ -33,6 +35,7 @@ class WCLCog(commands.Cog):
 
     @commands.command()
     async def kills(self, ctx, log):
+        log = log.split("/")[4]
         data = self.wcl_parser.ParseFight(log)
 
         data = data[(data['kill'] == True)]
@@ -45,6 +48,7 @@ class WCLCog(commands.Cog):
 
     @commands.command()
     async def wipes(self, ctx, log):
+        log = log.split("/")[4]
         data = self.wcl_parser.ParseFight(log)
         data = data[(data['kill'] == False)]
         blank_index = [''] * len(data)
