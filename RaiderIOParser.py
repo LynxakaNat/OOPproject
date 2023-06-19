@@ -9,15 +9,21 @@ class RaiderIOParser(Parser):
 
     def __init__(self, client: RaiderIOApiConnector):
         """
-
+        Initializes the RaiderIO API Parser
         :param client: the RaiderIOApiConnector client
         """
         self.client = client
 
     def Parse(self, url: str, query: str):
+        """
+        This functions sends a request to the RaiderIOApiConnector
+        :param url: full URL of the request
+        :param query: This is what we want to request from RaiderIO
+        :return: It returns the response from the RaiderIO API for the query we gave it
+        """
         data = self.client.Request(url, query)
-        df = pd.Series(data)
-        return df
+        dataframe = pd.Series(data)
+        return dataframe
 
     def ParseChar(self, region: str, realm: str, character: str, field: str = None) -> pd.Series:
         """
@@ -31,8 +37,8 @@ class RaiderIOParser(Parser):
         :return: a pandas series containing the information obtained from a RaiderIOApiConnector.RequestCharacter
         """
         char = self.client.RequestCharacter(region, realm, character, field)
-        df = pd.Series(char)
-        return df
+        dataframe_char = pd.Series(char)
+        return dataframe_char
 
     def ParseAffix(self, region: str, locale: str):
         """
@@ -42,17 +48,17 @@ class RaiderIOParser(Parser):
         :return: a pandas series containing the data obtained from RaiderConnect.RequestAffix
         """
         data = self.client.RequestAffix(region, locale)
-        df = pd.Series(data)
-        return df
+        dataframe_affix = pd.Series(data)
+        return dataframe_affix
 
     def ParseMythicRun(self, season, run_id: str):
         """
         This is the function where we parse a singular mythic dungeon run data
         from the RaiderIOApiConnector.RequestMythicRun
-        :param season: name of the season to retrieve (season-df-1, etc.). Defaults to current season.
+        :param season: name of the season to retrieve (season-dataframe-1, etc.). Defaults to current season.
         :param run_id: ID of the run that you want to get details for
         :return: a pandas series containing the data obtained from RaiderConnect.RequestMythicRun
         """
         data = self.client.RequestMythicRun(season, run_id)
-        df = pd.Series(data)
-        return df
+        dataframe_run = pd.Series(data)
+        return dataframe_run

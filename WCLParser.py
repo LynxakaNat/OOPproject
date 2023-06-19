@@ -8,9 +8,19 @@ class WCLParser(Parser):
     client = None
 
     def __init__(self, client: WCLApiConnector):
+        """
+        Initializes the WCL API Parser
+        :param client: the WCLApiConnector API client
+        """
         self.client = client
 
     def Parse(self, url: str, query: str):
+        """
+        This functions sends a request to the WCLApiConnector
+        :param url: full URL of the request
+        :param query: This is what we want to request from WCL
+        :return: It returns the response from the WCL API for the query we gave it
+        """
         raw_data = self.client.Request(url, query)
         return raw_data
 
@@ -97,8 +107,7 @@ class WCLParser(Parser):
         """
         raw_data = self.client.RequestPlayers(log_code, fight_id)
         unpacked_data_dps = raw_data['data']['reportData']['report']['playerDetails']['data']['playerDetails']['dps']
-        unpacked_data_heal = raw_data['data']['reportData']['report']['playerDetails']['data']['playerDetails'][
-            'healers']
+        unpacked_data_heal = raw_data['data']['reportData']['report']['playerDetails']['data']['playerDetails']['healers']
         unpacked_data_tank = raw_data['data']['reportData']['report']['playerDetails']['data']['playerDetails']['tanks']
 
         dps = pd.DataFrame(unpacked_data_dps)

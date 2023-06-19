@@ -33,7 +33,7 @@ class RaiderIOApiConnector(ApiClient):
             params = {'region': region, 'realm': realm, 'name': character}
         else:
             params = {'region': region, 'realm': realm, 'name': character, 'fields': field}
-        return self.Request(url,query=params)
+        return self.Request(url, query=params)
 
     def RequestAffix(self, region: str, locale: str):
         """

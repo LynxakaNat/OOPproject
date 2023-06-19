@@ -12,5 +12,3 @@ class Main:
     client.run(bot_token)
 
 
-if __name__ == "__main__":
-    Main

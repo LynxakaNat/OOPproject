@@ -16,8 +16,7 @@ class ToxicityBot(commands.Bot):
 
     async def on_ready(self):
         """
-
-        :return: void
+        This functions log in the bot and adds the functionality of the cogs
         """
         print(f'Logged in as {self.user.name} ({self.user.id})')
         self.wcl_client = WCLApiConnector(self.client_id, self.secret_key)

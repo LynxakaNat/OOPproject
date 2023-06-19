@@ -3,7 +3,6 @@ import pandas as pd
 from discord.ext import commands
 from discord.ext.commands import Bot
 
-
 from WCLParser import *
 import matplotlib.pyplot as plt
 from tabulate import *
@@ -63,14 +62,15 @@ class WCLCog(commands.Cog):
         """
         log = log.split("/")[4]
         data = self.parser.ParseFight(log)
-
         data = data[(data['kill'] == True)]
-        amount = len(data)
+        # we do not type is because it breaks because of pandas
+        amount_of_kills = len(data)
         blank_index = [''] * len(data)
+        # we add this blank index because we want to make the formatting of the message neater
         data.index = blank_index
-        embedded_mess = discord.Embed(title="You have killed " + str(amount) + " bosses!", description=(
+        embedded_message = discord.Embed(title="You have killed " + str(amount_of_kills) + " bosses!", description=(
             data['name'].to_string()), color=0x394A8C)
-        await ctx.send(embed=embedded_mess)
+        await ctx.send(embed=embedded_message)
 
     @commands.command()
     async def wipes(self, ctx, log):
@@ -85,11 +85,12 @@ class WCLCog(commands.Cog):
         data = self.parser.ParseFight(log)
         data = data[(data['kill'] == False)]
         blank_index = [''] * len(data)
+        # we add this blank index because we want to make the formatting of the message neater
         data.index = blank_index
-        amount = len(data)
-        embedded_mess = discord.Embed(title="You have wiped " + str(amount) + " times!", description=(
-                "```" + data['name'].to_string() + "```"), color=0x394A8C)
-        await ctx.send(embed=embedded_mess)
+        amount_of_wipes = len(data)
+        embedded_message = discord.Embed(title="You have wiped " + str(amount_of_wipes) + " times!", description=(
+                data['name'].to_string()), color=0x394A8C)
+        await ctx.send(embed=embedded_message)
 
     @commands.command()
     async def members(self, ctx, guild_name, serv_name, server_reg):
@@ -103,10 +104,10 @@ class WCLCog(commands.Cog):
         :param server_reg: the name of the region of the server
         """
         data = self.parser.ParseGuild(guild_name, serv_name, server_reg)
-        embedded_mess = discord.Embed(title="Those are the lovely members of " + guild_name, description=(
+        embedded_message = discord.Embed(title="Those are the lovely members of " + guild_name, description=(
                 "```" + tabulate(data) + "```"), color=0x394A8C)
 
-        await ctx.send(embed=embedded_mess)
+        await ctx.send(embed=embedded_message)
 
     @commands.command()
     async def deaths(self, ctx, log_code):

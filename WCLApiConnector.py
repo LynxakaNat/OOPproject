@@ -7,20 +7,21 @@ from ApiClient import *
 # Here we are setting the API
 class WCLApiConnector(ApiClient):
     base_url = "https://www.warcraftlogs.com:443/api/v2/client"
-    oauth_auth_uri = "https://www.warcraftlogs.com/oauth/authorize"
-    token_url = "https://www.warcraftlogs.com/oauth/token"
+    oauth_url = "https://www.warcraftlogs.com/oauth/"
+    oauth_auth_url = oauth_url + "authorize"
+    oauth_token_url = oauth_url + "token"
     current_oauth_token = None
     current_oauth_token_expiry = None
     refresh_time = 86400
 
-    def __init__(self, clientid, secret_key):
+    def __init__(self, client_id, secret_key):
         """
-
-        :param clientid: the WCL client ID created when creating an app for WCL
+        Initialize the WCL API connection
+        :param client_id: the WCL client ID created when creating an app for WCL
         :param secret_key: the secret key DO NOT SHARE THE KEY
         """
 
-        self.client_id = clientid
+        self.client_id = client_id
         self.secret_key = secret_key
         # Create session
 
@@ -32,9 +33,9 @@ class WCLApiConnector(ApiClient):
         :return: this function does not return anything
         """
         # This allows us to let requests.post take care of the OAuth
-        auth = requests.auth.HTTPBasicAuth(self.client_id, self.secret_key)
+        requests.auth.HTTPBasicAuth(self.client_id, self.secret_key)
         data = {"grant_type": "client_credentials"}
-        response = requests.post(self.token_url, data=data, auth=(self.client_id, self.secret_key))
+        response = requests.post(self.oauth_token_url, data=data, auth=(self.client_id, self.secret_key))
         resp = response.json()
         self.current_oauth_token = resp["access_token"]
         self.current_oauth_token_expiry = (datetime.now() + timedelta(seconds=resp["expires_in"]))
@@ -57,16 +58,16 @@ class WCLApiConnector(ApiClient):
 
     def Request(self, url: str, query: str):
         """
+        This functions sends a request to the WCL API
         :param url: full URL of the request
         :param query: This is what we want to request from WCL
         :return: It returns the response from the WCL API for the query we gave it
         """
 
         self.RenewToken()  # We always want to check if our access token is not expired.
-        url = self.base_url  #
         headers = {"authorization": "Bearer {}".format(self.current_oauth_token),
                    "accept": "application/json"}
-        response = requests.get(url, json={'query': query}, headers=headers)
+        response = requests.get(self.base_url, json={'query': query}, headers=headers)
 
         response.raise_for_status()  # This takes care of some error checking
         return response.json()
@@ -83,7 +84,8 @@ class WCLApiConnector(ApiClient):
         query = """
             query {
              guildData {
-              guild(name: \"""" + guild_name + """\", serverSlug: \"""" + serv_name + """\", serverRegion: \"""" + server_reg + """\"){
+              guild(name: \"""" + guild_name + """\", serverSlug: \"""" + serv_name + """\", serverRegion: \"""" \
+                + server_reg + """\"){
               members { data {name level faction {name}}} 
               }
                     }
