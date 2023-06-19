@@ -70,16 +70,16 @@ class WCLApiConnector(ApiClient):
 
         response.raise_for_status()  # This takes care of some error checking
         return response.json()
-    
-    def RequestGuild(self, guild_name : str, serv_name : str, server_reg: str):
-        """
 
+    def RequestGuild(self, guild_name: str, serv_name: str, server_reg: str):
+        """
+        This function sends the guild request to the WCL API
         :param guild_name: name of the guild whose members we want to check
         :param serv_name: name of the server of the guild
         :param server_reg: region of the guild server
         :return: It returns the response from the WCL API for the guild query we gave it
         """
-        
+
         query = """
             query {
              guildData {
@@ -91,10 +91,10 @@ class WCLApiConnector(ApiClient):
               """
         data = self.Request(self.base_url, query)
         return data
-    
-    def RequestRanking(self,  log_code: str, rank_type:str):
-        """
 
+    def RequestRanking(self, log_code: str, rank_type: str):
+        """
+        This function sends the selected ranking request to the WCL API
         :param log_code: the code of the log we want the API to read
         :param rank_type: the type of ranking which we want to compare hps/dps
         :return: returns the response from the WCL API for the ranking query we gave it
@@ -103,17 +103,17 @@ class WCLApiConnector(ApiClient):
         query = """
             query {
              reportData {
-              report(code: \"""" + log_code + """\") {rankings(playerMetric : """+rank_type+""")
+              report(code: \"""" + log_code + """\") {rankings(playerMetric : """ + rank_type + """)
                     }
                 } 
               }"""
-        
+
         data = self.Request(self.base_url, query)
         return data
 
-    def RequestFight(self, log_code : str):
+    def RequestFight(self, log_code: str):
         """
-
+        This function sends the selected encounter request to the WCL API
         :param log_code:  the code of the log we want the API to read
         :return: returns the response from the WCL API for the fight query we gave it
         """
@@ -137,4 +137,39 @@ class WCLApiConnector(ApiClient):
               }"""
         data = self.Request(self.base_url, query)
         return data
-   
+
+    def RequestEvent(self, log_code: str, data_type: str, fight_id: str):
+        """
+        This function sends the selected event request to the WCL API
+        :param log_code:  the code of the log we want the API to read
+        :param data_type: type of the event we want to scrape,
+        https://www.warcraftlogs.com/v2-api-docs/warcraft/eventdatatype.doc.html <- for future
+        possibility to expand the cog methods
+        :param fight_id: the fight encounters we want to analyze the data from
+        :return: returns the response from the WCL API for the event query we gave it
+        """
+        query = """
+                                    query { 
+                                        reportData {
+                                            report(code: \"""" + log_code + """\") {
+                                                events(dataType: """ + data_type + """ fightIDs: 
+                                                [""" + fight_id + """] limit: 10000){ data } } } }"""
+        return self.Request(self.base_url, query)
+
+    def RequestPlayers(self, log_code: str, fight_id: str):
+        """
+        This function sends the player details request to the WCL API
+        :param log_code:  the code of the log we want the API to read
+        :param fight_id: the fight encounters we want to analyze the data from
+        :return: returns the response from the WCL API for the event query we gave it
+        """
+        query = """
+                                            query { 
+                                                reportData {
+                                                    report(code: \"""" + log_code + """\") {
+                                                        playerDetails(fightIDs: [""" + fight_id + """])
+                                                    }
+                                                } 
+                                            }
+                                            """
+        return self.Request(self.base_url, query)

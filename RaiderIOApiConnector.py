@@ -47,6 +47,12 @@ class RaiderIOApiConnector(ApiClient):
         return self.Request(url, query=params)
 
     def RequestMythicRun(self, season, run_id):
+        """
+        This function will get us the requested run information from the raider.io API
+        :param season: name of the season to retrieve (season-df-1, etc.). Defaults to current season.
+        :param run_id: the link to the run
+        :return: a JSON from raiderIO
+        """
         url = self.base_url + "/api/v1/mythic-plus/run-details"
         params = {'season': season, 'id': run_id}
         return self.Request(url, query=params)

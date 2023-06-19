@@ -1,20 +1,12 @@
-from os.path import isfile
-from os import environ, makedirs, getcwd
-
-import discord
-from discord.ext.commands import Bot, DefaultHelpCommand, bot
-from discord import Game
-from pathlib import Path
-from discord import Intents
-from WCLApiConnector import *
 import WCLCog
 from WCLParser import *
-from discord.ext import commands
-from RaiderIOApiConnector import *
-from RaiderIOParser import *
 from RaiderIOCog import *
 
+
 class ToxicityBot(commands.Bot):
+    """
+    This is the class of the Toxicity bot, here we initialize and log in the bot
+    """
     client_id = "9932bc5b-bba5-45e8-bfc4-82cf2c4c4877"
     secret_key = "qvukkWRBpLLgumxlFrP82zC8mEeDLmFeoPcIXgdj"
     wcl_client = None
@@ -25,7 +17,7 @@ class ToxicityBot(commands.Bot):
     async def on_ready(self):
         """
 
-        :return:
+        :return: void
         """
         print(f'Logged in as {self.user.name} ({self.user.id})')
         self.wcl_client = WCLApiConnector(self.client_id, self.secret_key)
@@ -35,5 +27,3 @@ class ToxicityBot(commands.Bot):
         await self.add_cog(WCLCog.WCLCog(self, self.wcl_parser))
         await self.add_cog(RaiderIOCog(self, self.raider_parser))
 
-    '''async def on_message(self, message):
-        print("Hey")'''
