@@ -37,3 +37,8 @@ Let's focus on the Warcraft Logs API classes for now. We have the Connector clas
 
 #### RaiderIO API Classes
 This API on the other hand does not require any identification of the user, we can send multiple request directly to the API (see more at https://raider.io/api). The data we get from the API will be in a JSON form, which we will then convert into a Pandas DataFrame in the RaiderIOParser. In the RaiderIOCog (which inherits discord.cog) we convert the DataFrame further into a graph or a message.
+
+### Documentation
+In order to access the full documentation of this project go to docs -> _build -> html -> index.html 
+<img width="597" alt="image" src="https://github.com/LynxakaNat/OOPproject/assets/115657550/d0b05633-6c85-49b3-b521-1ceaa48d8d61">
+
