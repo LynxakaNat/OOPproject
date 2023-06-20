@@ -9,6 +9,7 @@ class RaiderIOApiConnector(ApiClient):
     def Request(self, url: str, query: dict):
         """
         This function sends the request to raider.io API
+
         :param url: Full URL of the request
         :param query: What we want to request from RaiderIO
         :return: response in the json form
@@ -20,6 +21,7 @@ class RaiderIOApiConnector(ApiClient):
     def RequestCharacter(self, region: str, realm: str, character: str, field: str = None):
         """
         This function will get us the character information from the raider.io API
+
         :param region: the region the character is from
         :param realm: the realm the character is from
         :param character: the character's name
@@ -38,6 +40,7 @@ class RaiderIOApiConnector(ApiClient):
     def RequestAffix(self, region: str, locale: str):
         """
         This function will get us the weekly affix information from the raider.io API
+
         :param region: the region whose affixes you want from
         :param locale: the language in which you want them returned for full list https://raider.io/api
         :return: a JSON from raiderIO
@@ -49,6 +52,7 @@ class RaiderIOApiConnector(ApiClient):
     def RequestMythicRun(self, season, run_id):
         """
         This function will get us the requested run information from the raider.io API
+
         :param season: name of the season to retrieve (season-df-1, etc.). Defaults to current season.
         :param run_id: the link to the run
         :return: a JSON from raiderIO

@@ -56,6 +56,7 @@ class WCLCog(commands.Cog):
         """
         This method sends an embedded discord message when a !kills command is invoked
         containing the information about the amount of bosses that got killed in the log
+
         :param ctx: represents the context in which a command is being invoked under
         (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)
         :param log: link to the logged fight
@@ -77,6 +78,7 @@ class WCLCog(commands.Cog):
         """
         This method sends an embedded discord message when a !wipes command is invoked
         containing the information about the amount of times players wiped and on what bosses
+
         :param ctx: represents the context in which a command is being invoked under
         (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)
         :param log: link to the logged fight
@@ -97,6 +99,7 @@ class WCLCog(commands.Cog):
         """
         This method sends an embedded discord message when a !members command is invoked
         containing the information about the amount of players being in a requested guild
+
         :param ctx: represents the context in which a command is being invoked under
         (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)
         :param guild_name: the name of the guild
@@ -115,6 +118,7 @@ class WCLCog(commands.Cog):
         This method sends a graph image to discord channel when a !deaths command is invoked
         containing the information about the amount of times players died during the duration
         of the whole raid night (log)
+
         :param ctx: represents the context in which a command is being invoked under
         (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)
         :param log_code: link to the logged fight

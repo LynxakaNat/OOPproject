@@ -11,6 +11,7 @@ class RaiderIOCog(commands.Cog):
     def __init__(self, bot: commands.Bot, parser: RaiderIOParser):
         """
         Here we initialize the RaiderIOCog
+
         :param bot: the Toxicity bot
         :param parser: the RaiderIOParser
         """
@@ -22,6 +23,7 @@ class RaiderIOCog(commands.Cog):
         """
         This method sends an embedded discord message when a !spy command is invoked
         containing the basic information about the requested character
+
         :param ctx: represents the context in which a command is being invoked under
         (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)
         :param character: the name of the character we want to grab the data about
@@ -47,6 +49,7 @@ class RaiderIOCog(commands.Cog):
         """
         This method sends an embedded discord message when a !mythicscore command is invoked
         containing the mythic score information about the requested character
+
         :param ctx: represents the context in which a command is being invoked under
         (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)
         :param character: the name of the character we want to grab the data about
@@ -82,6 +85,7 @@ class RaiderIOCog(commands.Cog):
         """
         This method sends an embedded discord message when a !mythicranking command is invoked
         containing the mythic ranking information (world,region, realm) about the requested character
+
         :param ctx: represents the context in which a command is being invoked under
         (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)
         :param character: the name of the character we want to grab the data about
@@ -114,6 +118,7 @@ class RaiderIOCog(commands.Cog):
         This method sends an embedded discord message when a !lastruns command is invoked
         containing the information about three most recent runs of mythic dungeons done
         by the requested character
+
         :param ctx: represents the context in which a command is being invoked under
         (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)
         :param character: the name of the character we want to grab the data about
@@ -148,6 +153,7 @@ class RaiderIOCog(commands.Cog):
         This method sends an embedded discord message when a !bestruns command is invoked
         containing the information about three best runs of mythic dungeons done
         by the requested character
+
         :param ctx: represents the context in which a command is being invoked under
         (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)
         :param character: the name of the character we want to grab the data about
@@ -184,6 +190,7 @@ class RaiderIOCog(commands.Cog):
         T
         :param ctx: represents the context in which a command is being invoked under
         (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)
+
         :param region: the name of the region of the server
         :param locale: the language in which you want them returned for full list https://raider.io/api
         defaults to english
@@ -204,6 +211,7 @@ class RaiderIOCog(commands.Cog):
         """
         This method sends an embedded discord message when a !run command is invoked
         containing the information about the requested run
+
         :param ctx: represents the context in which a command is being invoked under
         (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)
         :param run_id: the link to the run

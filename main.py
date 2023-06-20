@@ -1,7 +1,7 @@
 import discord
 import ToxicityBot
 
-
+bot_token = None
 
 
 class Main:

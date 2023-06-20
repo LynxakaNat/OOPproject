@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WCLParser module &mdash; Toxicity Bot  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="main module" href="main.html" />
+    <link rel="prev" title="WCLCog module" href="WCLCog.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Toxicity Bot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">OOPproject</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ApiClient.html">ApiClient module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ApiConnector.html">ApiConnector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Parser.html">Parser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RaiderIOApiConnector.html">RaiderIOApiConnector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RaiderIOCog.html">RaiderIOCog module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RaiderIOParser.html">RaiderIOParser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ToxicityBot.html">ToxicityBot module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="WCLApiConnector.html">WCLApiConnector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="WCLCog.html">WCLCog module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">WCLParser module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#WCLParser.WCLParser"><code class="docutils literal notranslate"><span class="pre">WCLParser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#WCLParser.WCLParser.Parse"><code class="docutils literal notranslate"><span class="pre">WCLParser.Parse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLParser.WCLParser.ParseEvent"><code class="docutils literal notranslate"><span class="pre">WCLParser.ParseEvent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLParser.WCLParser.ParseFight"><code class="docutils literal notranslate"><span class="pre">WCLParser.ParseFight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLParser.WCLParser.ParseGuild"><code class="docutils literal notranslate"><span class="pre">WCLParser.ParseGuild()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLParser.WCLParser.ParsePlayers"><code class="docutils literal notranslate"><span class="pre">WCLParser.ParsePlayers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLParser.WCLParser.ParseRanking"><code class="docutils literal notranslate"><span class="pre">WCLParser.ParseRanking()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLParser.WCLParser.client"><code class="docutils literal notranslate"><span class="pre">WCLParser.client</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Toxicity Bot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">OOPproject</a></li>
+      <li class="breadcrumb-item active">WCLParser module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/WCLParser.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-WCLParser">
+<span id="wclparser-module"></span><h1>WCLParser module<a class="headerlink" href="#module-WCLParser" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="WCLParser.WCLParser">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WCLParser.</span></span><span class="sig-name descname"><span class="pre">WCLParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="WCLApiConnector.html#WCLApiConnector.WCLApiConnector" title="WCLApiConnector.WCLApiConnector"><span class="pre">WCLApiConnector</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLParser.html#WCLParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLParser.WCLParser" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="Parser.html#Parser.Parser" title="Parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLParser.WCLParser.Parse">
+<span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLParser.html#WCLParser.Parse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLParser.WCLParser.Parse" title="Permalink to this definition"></a></dt>
+<dd><p>This functions sends a request to the WCLApiConnector</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> – full URL of the request</p></li>
+<li><p><strong>query</strong> – This is what we want to request from WCL</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>It returns the response from the WCL API for the query we gave it</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLParser.WCLParser.ParseEvent">
+<span class="sig-name descname"><span class="pre">ParseEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fight_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLParser.html#WCLParser.ParseEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLParser.WCLParser.ParseEvent" title="Permalink to this definition"></a></dt>
+<dd><p>This is the function where we parse the event (encounter) data from the WClApiConnector.RequestEvent.
+This function includes the data from the wipes (unlike ranking)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_code</strong> – the code of the log we want the API to read</p></li>
+<li><p><strong>data_type</strong> – type of the event we want to scrape,</p></li>
+</ul>
+</dd>
+</dl>
+<p><a class="reference external" href="https://www.warcraftlogs.com/v2-api-docs/warcraft/eventdatatype.doc.html">https://www.warcraftlogs.com/v2-api-docs/warcraft/eventdatatype.doc.html</a> &lt;- for future
+possibility to expand the cog methods
+:param fight_id: the fight encounters we want to analyze the data from
+:return: a pandas dataframe containing the event data obtained from WCLApiConnector.RequestEvent</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLParser.WCLParser.ParseFight">
+<span class="sig-name descname"><span class="pre">ParseFight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLParser.html#WCLParser.ParseFight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLParser.WCLParser.ParseFight" title="Permalink to this definition"></a></dt>
+<dd><p>This is the function where we parse the fight data from the WClApiConnector.RequestFight</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>log_code</strong> – the code of the log we want the API to read</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a pandas dataframe containing the information obtained from a WClApiConnector.RequestFight</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLParser.WCLParser.ParseGuild">
+<span class="sig-name descname"><span class="pre">ParseGuild</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">guild_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serv_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_reg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLParser.html#WCLParser.ParseGuild"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLParser.WCLParser.ParseGuild" title="Permalink to this definition"></a></dt>
+<dd><p>This is the function where we parse the guild data from the WClApiConnector.RequestGuild</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>guild_name</strong> – name of the guild whose members we want to check</p></li>
+<li><p><strong>serv_name</strong> – name of the server of the guild</p></li>
+<li><p><strong>server_reg</strong> – region of the guild server</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a pandas dataframe containing the information obtained from a WClApiConnector.RequestGuild</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLParser.WCLParser.ParsePlayers">
+<span class="sig-name descname"><span class="pre">ParsePlayers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fight_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLParser.html#WCLParser.ParsePlayers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLParser.WCLParser.ParsePlayers" title="Permalink to this definition"></a></dt>
+<dd><p>This is the function where we parse the player details data from the WClApiConnector.RequestPlayers</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>log_code</strong> – the code of the log we want the API to read</p>
+</dd>
+</dl>
+<p>:param fight_id:the fight encounters we want to analyze the data from
+:return: a pandas dataframe containing the player details data obtained from WCLApiConnector.RequestPlayers</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLParser.WCLParser.ParseRanking">
+<span class="sig-name descname"><span class="pre">ParseRanking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLParser.html#WCLParser.ParseRanking"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLParser.WCLParser.ParseRanking" title="Permalink to this definition"></a></dt>
+<dd><p>This is the function where we parse the ranking data from the WClApiConnector.RequestRanking</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_code</strong> – the code of the log we want the API to read</p></li>
+<li><p><strong>rank_type</strong> – the type of ranking which we want to compare hps/dps</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a pandas dataframe containing the information obtained  from a WClApiConnector.RequestRanking</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="WCLParser.WCLParser.client">
+<span class="sig-name descname"><span class="pre">client</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#WCLParser.WCLParser.client" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="WCLCog.html" class="btn btn-neutral float-left" title="WCLCog module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="main.html" class="btn btn-neutral float-right" title="main module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Natalia Zychowicz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

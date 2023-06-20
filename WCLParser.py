@@ -10,6 +10,7 @@ class WCLParser(Parser):
     def __init__(self, client: WCLApiConnector):
         """
         Initializes the WCL API Parser
+
         :param client: the WCLApiConnector API client
         """
         self.client = client
@@ -17,6 +18,7 @@ class WCLParser(Parser):
     def Parse(self, url: str, query: str):
         """
         This functions sends a request to the WCLApiConnector
+
         :param url: full URL of the request
         :param query: This is what we want to request from WCL
         :return: It returns the response from the WCL API for the query we gave it
@@ -27,6 +29,7 @@ class WCLParser(Parser):
     def ParseRanking(self, log_code: str, rank_type: str):
         """
         This is the function where we parse the ranking data from the WClApiConnector.RequestRanking
+
         :param log_code: the code of the log we want the API to read
         :param rank_type: the type of ranking which we want to compare hps/dps
         :return: a pandas dataframe containing the information obtained  from a WClApiConnector.RequestRanking
@@ -52,6 +55,7 @@ class WCLParser(Parser):
     def ParseGuild(self, guild_name: str, serv_name: str, server_reg: str):
         """
         This is the function where we parse the guild data from the WClApiConnector.RequestGuild
+
         :param guild_name: name of the guild whose members we want to check
         :param serv_name: name of the server of the guild
         :param server_reg: region of the guild server
@@ -70,6 +74,7 @@ class WCLParser(Parser):
     def ParseFight(self, log_code: str):
         """
         This is the function where we parse the fight data from the WClApiConnector.RequestFight
+
         :param log_code: the code of the log we want the API to read
         :return: a pandas dataframe containing the information obtained from a WClApiConnector.RequestFight
         """
@@ -86,6 +91,7 @@ class WCLParser(Parser):
         """
         This is the function where we parse the event (encounter) data from the WClApiConnector.RequestEvent.
         This function includes the data from the wipes (unlike ranking)
+
         :param log_code: the code of the log we want the API to read
         :param data_type: type of the event we want to scrape,
         https://www.warcraftlogs.com/v2-api-docs/warcraft/eventdatatype.doc.html <- for future
@@ -101,6 +107,7 @@ class WCLParser(Parser):
     def ParsePlayers(self, log_code: str, fight_id: str):
         """
         This is the function where we parse the player details data from the WClApiConnector.RequestPlayers
+
         :param log_code: the code of the log we want the API to read
         :param fight_id:the fight encounters we want to analyze the data from
         :return: a pandas dataframe containing the player details data obtained from WCLApiConnector.RequestPlayers

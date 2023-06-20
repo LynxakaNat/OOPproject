@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WCLParser &mdash; Toxicity Bot  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Toxicity Bot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">OOPproject</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Toxicity Bot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">WCLParser</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for WCLParser</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">WCLApiConnector</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">Parser</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="WCLParser"><a class="viewcode-back" href="../WCLParser.html#WCLParser.WCLParser">[docs]</a><span class="k">class</span> <span class="nc">WCLParser</span><span class="p">(</span><span class="n">Parser</span><span class="p">):</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">:</span> <span class="n">WCLApiConnector</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the WCL API Parser</span>
+
+<span class="sd">        :param client: the WCLApiConnector API client</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
+
+<div class="viewcode-block" id="WCLParser.Parse"><a class="viewcode-back" href="../WCLParser.html#WCLParser.WCLParser.Parse">[docs]</a>    <span class="k">def</span> <span class="nf">Parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This functions sends a request to the WCLApiConnector</span>
+
+<span class="sd">        :param url: full URL of the request</span>
+<span class="sd">        :param query: This is what we want to request from WCL</span>
+<span class="sd">        :return: It returns the response from the WCL API for the query we gave it</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">raw_data</span></div>
+
+<div class="viewcode-block" id="WCLParser.ParseRanking"><a class="viewcode-back" href="../WCLParser.html#WCLParser.WCLParser.ParseRanking">[docs]</a>    <span class="k">def</span> <span class="nf">ParseRanking</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">rank_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the function where we parse the ranking data from the WClApiConnector.RequestRanking</span>
+
+<span class="sd">        :param log_code: the code of the log we want the API to read</span>
+<span class="sd">        :param rank_type: the type of ranking which we want to compare hps/dps</span>
+<span class="sd">        :return: a pandas dataframe containing the information obtained  from a WClApiConnector.RequestRanking</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">RequestRanking</span><span class="p">(</span><span class="n">log_code</span><span class="p">,</span> <span class="n">rank_type</span><span class="p">)</span>  <span class="c1"># this is the data we get from the API</span>
+        <span class="n">unpacked_data</span> <span class="o">=</span> <span class="n">raw_data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;reportData&#39;</span><span class="p">][</span><span class="s1">&#39;report&#39;</span><span class="p">][</span><span class="s1">&#39;rankings&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="c1"># We now want to transform the data into a proper DataFrame</span>
+        <span class="n">parsed_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">unpacked_data</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;fightID&#39;</span><span class="p">)</span>
+        <span class="c1"># We set the index to the fightID in order to be able to clearly differentiate amongst different encounters</span>
+        <span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">parsed_df</span><span class="p">[</span><span class="s1">&#39;roles&#39;</span><span class="p">])</span>
+        <span class="c1"># -&gt; unpack the dictonaries per fight to a dataframe</span>
+        <span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df2</span><span class="p">[</span><span class="s1">&#39;roles&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="c1"># Here we are grouping the roles into three individual dataframes so we can then put them in order</span>
+        <span class="c1"># tanks -&gt; healers -&gt; dps - using pd.concat</span>
+        <span class="n">tanks</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;tanks&#39;</span><span class="p">][</span><span class="s1">&#39;characters&#39;</span><span class="p">])</span>
+        <span class="n">healers</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;healers&#39;</span><span class="p">][</span><span class="s1">&#39;characters&#39;</span><span class="p">])</span>
+        <span class="n">dps</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;dps&#39;</span><span class="p">][</span><span class="s1">&#39;characters&#39;</span><span class="p">])</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">tanks</span><span class="p">,</span> <span class="n">healers</span><span class="p">,</span> <span class="n">dps</span><span class="p">]</span>
+        <span class="c1"># We set the index to names  in order to be able to use it later in the discord bot input </span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WCLParser.ParseGuild"><a class="viewcode-back" href="../WCLParser.html#WCLParser.WCLParser.ParseGuild">[docs]</a>    <span class="k">def</span> <span class="nf">ParseGuild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">guild_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serv_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">server_reg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the function where we parse the guild data from the WClApiConnector.RequestGuild</span>
+
+<span class="sd">        :param guild_name: name of the guild whose members we want to check</span>
+<span class="sd">        :param serv_name: name of the server of the guild</span>
+<span class="sd">        :param server_reg: region of the guild server</span>
+<span class="sd">        :return: a pandas dataframe containing the information obtained from a WClApiConnector.RequestGuild</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">RequestGuild</span><span class="p">(</span><span class="n">guild_name</span><span class="p">,</span> <span class="n">serv_name</span><span class="p">,</span> <span class="n">server_reg</span><span class="p">)</span>
+        <span class="n">unpacked_data</span> <span class="o">=</span> <span class="n">raw_data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;guildData&#39;</span><span class="p">][</span><span class="s1">&#39;guild&#39;</span><span class="p">][</span><span class="s1">&#39;members&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">parsed_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">unpacked_data</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+        <span class="c1"># We set the index to name rather than fightID because it is a neat way for the discord bot input</span>
+        <span class="n">parsed_data</span><span class="p">[</span><span class="s1">&#39;faction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parsed_data</span><span class="p">[</span><span class="s1">&#39;faction&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+        <span class="c1"># We have to unpack the dictionary of the faction since it has one entry, to make it more readable</span>
+
+        <span class="k">return</span> <span class="n">parsed_data</span></div>
+
+<div class="viewcode-block" id="WCLParser.ParseFight"><a class="viewcode-back" href="../WCLParser.html#WCLParser.WCLParser.ParseFight">[docs]</a>    <span class="k">def</span> <span class="nf">ParseFight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the function where we parse the fight data from the WClApiConnector.RequestFight</span>
+
+<span class="sd">        :param log_code: the code of the log we want the API to read</span>
+<span class="sd">        :return: a pandas dataframe containing the information obtained from a WClApiConnector.RequestFight</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">RequestFight</span><span class="p">(</span><span class="n">log_code</span><span class="p">)</span>
+        <span class="n">unpacked_data</span> <span class="o">=</span> <span class="n">raw_data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;reportData&#39;</span><span class="p">][</span><span class="s1">&#39;report&#39;</span><span class="p">][</span><span class="s1">&#39;fights&#39;</span><span class="p">]</span>
+        <span class="n">parsed_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">unpacked_data</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+        <span class="c1"># We know boss fights are under kill column labeled either True or False</span>
+        <span class="c1"># Thrash fights are of str None -&gt; so we want to get rid of them to have</span>
+        <span class="c1"># boss fights</span>
+        <span class="n">parsed_df</span> <span class="o">=</span> <span class="n">parsed_df</span><span class="p">[(</span><span class="n">parsed_df</span><span class="p">[</span><span class="s1">&#39;kill&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">parsed_df</span><span class="p">[</span><span class="s1">&#39;kill&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">parsed_df</span></div>
+
+<div class="viewcode-block" id="WCLParser.ParseEvent"><a class="viewcode-back" href="../WCLParser.html#WCLParser.WCLParser.ParseEvent">[docs]</a>    <span class="k">def</span> <span class="nf">ParseEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fight_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the function where we parse the event (encounter) data from the WClApiConnector.RequestEvent.</span>
+<span class="sd">        This function includes the data from the wipes (unlike ranking)</span>
+
+<span class="sd">        :param log_code: the code of the log we want the API to read</span>
+<span class="sd">        :param data_type: type of the event we want to scrape,</span>
+<span class="sd">        https://www.warcraftlogs.com/v2-api-docs/warcraft/eventdatatype.doc.html &lt;- for future</span>
+<span class="sd">        possibility to expand the cog methods</span>
+<span class="sd">        :param fight_id: the fight encounters we want to analyze the data from</span>
+<span class="sd">        :return: a pandas dataframe containing the event data obtained from WCLApiConnector.RequestEvent</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">RequestEvent</span><span class="p">(</span><span class="n">log_code</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">fight_id</span><span class="p">)</span>
+        <span class="n">unpacked_data</span> <span class="o">=</span> <span class="n">raw_data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;reportData&#39;</span><span class="p">][</span><span class="s1">&#39;report&#39;</span><span class="p">][</span><span class="s1">&#39;events&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">parsed_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">unpacked_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">parsed_df</span></div>
+
+<div class="viewcode-block" id="WCLParser.ParsePlayers"><a class="viewcode-back" href="../WCLParser.html#WCLParser.WCLParser.ParsePlayers">[docs]</a>    <span class="k">def</span> <span class="nf">ParsePlayers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fight_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the function where we parse the player details data from the WClApiConnector.RequestPlayers</span>
+
+<span class="sd">        :param log_code: the code of the log we want the API to read</span>
+<span class="sd">        :param fight_id:the fight encounters we want to analyze the data from</span>
+<span class="sd">        :return: a pandas dataframe containing the player details data obtained from WCLApiConnector.RequestPlayers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">raw_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">RequestPlayers</span><span class="p">(</span><span class="n">log_code</span><span class="p">,</span> <span class="n">fight_id</span><span class="p">)</span>
+        <span class="n">unpacked_data_dps</span> <span class="o">=</span> <span class="n">raw_data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;reportData&#39;</span><span class="p">][</span><span class="s1">&#39;report&#39;</span><span class="p">][</span><span class="s1">&#39;playerDetails&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;playerDetails&#39;</span><span class="p">][</span><span class="s1">&#39;dps&#39;</span><span class="p">]</span>
+        <span class="n">unpacked_data_heal</span> <span class="o">=</span> <span class="n">raw_data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;reportData&#39;</span><span class="p">][</span><span class="s1">&#39;report&#39;</span><span class="p">][</span><span class="s1">&#39;playerDetails&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;playerDetails&#39;</span><span class="p">][</span><span class="s1">&#39;healers&#39;</span><span class="p">]</span>
+        <span class="n">unpacked_data_tank</span> <span class="o">=</span> <span class="n">raw_data</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;reportData&#39;</span><span class="p">][</span><span class="s1">&#39;report&#39;</span><span class="p">][</span><span class="s1">&#39;playerDetails&#39;</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;playerDetails&#39;</span><span class="p">][</span><span class="s1">&#39;tanks&#39;</span><span class="p">]</span>
+
+        <span class="n">dps</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">unpacked_data_dps</span><span class="p">)</span>
+        <span class="n">heal</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">unpacked_data_heal</span><span class="p">)</span>
+        <span class="n">tank</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">unpacked_data_tank</span><span class="p">)</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">tank</span><span class="p">,</span> <span class="n">heal</span><span class="p">,</span> <span class="n">dps</span><span class="p">]</span>
+        <span class="c1"># We set the index to names  in order to be able to use it later in the discord bot input</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Natalia Zychowicz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

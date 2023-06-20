@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WCLCog &mdash; Toxicity Bot  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Toxicity Bot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">OOPproject</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Toxicity Bot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">WCLCog</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for WCLCog</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">discord</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">discord.ext</span> <span class="kn">import</span> <span class="n">commands</span>
+<span class="kn">from</span> <span class="nn">discord.ext.commands</span> <span class="kn">import</span> <span class="n">Bot</span>
+
+<span class="kn">from</span> <span class="nn">WCLParser</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="WCLCog"><a class="viewcode-back" href="../WCLCog.html#WCLCog.WCLCog">[docs]</a><span class="k">class</span> <span class="nc">WCLCog</span><span class="p">(</span><span class="n">commands</span><span class="o">.</span><span class="n">Cog</span><span class="p">):</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot</span><span class="p">:</span> <span class="n">commands</span><span class="o">.</span><span class="n">Bot</span><span class="p">,</span> <span class="n">parser</span><span class="p">:</span> <span class="n">WCLParser</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot</span> <span class="o">=</span> <span class="n">bot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">parser</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">hps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">log</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method sends a graph image to discord when an !hps command is invoked</span>
+<span class="sd">        containing the information about the hps ranking taken from the log</span>
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+<span class="sd">        :param log: link to the logged fight</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">log</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseRanking</span><span class="p">(</span><span class="n">log</span><span class="p">,</span> <span class="s1">&#39;hps&#39;</span><span class="p">)</span>
+        <span class="n">sorted_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;amount&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">sorted_data</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;graphs\graph.png&#39;</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">discord</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;graphs\graph.png&#39;</span><span class="p">))</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">dps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">log</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method sends a graph image to discord when a !dps command is invoked</span>
+<span class="sd">        containing the information about the dps ranking taken from the log</span>
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+<span class="sd">        :param log: link to the logged fight</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">log</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseRanking</span><span class="p">(</span><span class="n">log</span><span class="p">,</span> <span class="s1">&#39;dps&#39;</span><span class="p">)</span>
+        <span class="n">sorted_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;amount&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">sorted_data</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">samples</span><span class="p">[</span><span class="s1">&#39;amount&#39;</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;graphs\graph_d.png&#39;</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">discord</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;graphs\graph_d.png&#39;</span><span class="p">))</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">kills</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">log</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method sends an embedded discord message when a !kills command is invoked</span>
+<span class="sd">        containing the information about the amount of bosses that got killed in the log</span>
+
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+<span class="sd">        :param log: link to the logged fight</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">log</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseFight</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;kill&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">)]</span>
+        <span class="c1"># we do not type is because it breaks because of pandas</span>
+        <span class="n">amount_of_kills</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">blank_index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="c1"># we add this blank index because we want to make the formatting of the message neater</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">blank_index</span>
+        <span class="n">embedded_message</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Embed</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;You have killed &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">amount_of_kills</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; bosses!&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_string</span><span class="p">()),</span> <span class="n">color</span><span class="o">=</span><span class="mh">0x394A8C</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embedded_message</span><span class="p">)</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">wipes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">log</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method sends an embedded discord message when a !wipes command is invoked</span>
+<span class="sd">        containing the information about the amount of times players wiped and on what bosses</span>
+
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+<span class="sd">        :param log: link to the logged fight</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">log</span> <span class="o">=</span> <span class="n">log</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseFight</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;kill&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)]</span>
+        <span class="n">blank_index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="c1"># we add this blank index because we want to make the formatting of the message neater</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">blank_index</span>
+        <span class="n">amount_of_wipes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">embedded_message</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Embed</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;You have wiped &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">amount_of_wipes</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; times!&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_string</span><span class="p">()),</span> <span class="n">color</span><span class="o">=</span><span class="mh">0x394A8C</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embedded_message</span><span class="p">)</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">members</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">guild_name</span><span class="p">,</span> <span class="n">serv_name</span><span class="p">,</span> <span class="n">server_reg</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method sends an embedded discord message when a !members command is invoked</span>
+<span class="sd">        containing the information about the amount of players being in a requested guild</span>
+
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+<span class="sd">        :param guild_name: the name of the guild</span>
+<span class="sd">        :param serv_name: the name of the server of the said guild</span>
+<span class="sd">        :param server_reg: the name of the region of the server</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseGuild</span><span class="p">(</span><span class="n">guild_name</span><span class="p">,</span> <span class="n">serv_name</span><span class="p">,</span> <span class="n">server_reg</span><span class="p">)</span>
+        <span class="n">embedded_message</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Embed</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Those are the lovely members of &quot;</span> <span class="o">+</span> <span class="n">guild_name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;```&quot;</span> <span class="o">+</span> <span class="n">tabulate</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;```&quot;</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="mh">0x394A8C</span><span class="p">)</span>
+
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embedded_message</span><span class="p">)</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">deaths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">log_code</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method sends a graph image to discord channel when a !deaths command is invoked</span>
+<span class="sd">        containing the information about the amount of times players died during the duration</span>
+<span class="sd">        of the whole raid night (log)</span>
+
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+<span class="sd">        :param log_code: link to the logged fight</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">log_code</span> <span class="o">=</span> <span class="n">log_code</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">fight_id</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseFight</span><span class="p">(</span><span class="n">log_code</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">fight_id</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">fight_id</span><span class="p">))</span>
+        <span class="n">data_type</span> <span class="o">=</span> <span class="s2">&quot;Deaths&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseEvent</span><span class="p">(</span><span class="n">log_code</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">fight_id</span><span class="p">)</span>
+        <span class="n">players</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParsePlayers</span><span class="p">(</span><span class="n">log_code</span><span class="p">,</span> <span class="n">fight_id</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">encounter</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;targetID&#39;</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">player</span> <span class="ow">in</span> <span class="n">players</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">encounter</span> <span class="o">==</span> <span class="n">player</span><span class="p">:</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;targetID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">encounter</span><span class="p">,</span> <span class="s1">&#39;targetID&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="n">players</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">players</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">player</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">death</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;targetID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">death</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;graphs\graph_d.png&#39;</span><span class="p">)</span>
+
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">discord</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;graphs\graph_d.png&#39;</span><span class="p">))</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Natalia Zychowicz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

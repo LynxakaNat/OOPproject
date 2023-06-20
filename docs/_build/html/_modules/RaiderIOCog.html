@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RaiderIOCog &mdash; Toxicity Bot  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Toxicity Bot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">OOPproject</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Toxicity Bot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">RaiderIOCog</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for RaiderIOCog</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">discord</span>
+<span class="kn">from</span> <span class="nn">discord.ext</span> <span class="kn">import</span> <span class="n">commands</span>
+<span class="kn">from</span> <span class="nn">RaiderIOParser</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="c1"># This is the discord cog class for the RaiderIO data</span>
+<span class="c1"># This class already inherits the commands.Cog metaclass</span>
+<div class="viewcode-block" id="RaiderIOCog"><a class="viewcode-back" href="../RaiderIOCog.html#RaiderIOCog.RaiderIOCog">[docs]</a><span class="k">class</span> <span class="nc">RaiderIOCog</span><span class="p">(</span><span class="n">commands</span><span class="o">.</span><span class="n">Cog</span><span class="p">):</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot</span><span class="p">:</span> <span class="n">commands</span><span class="o">.</span><span class="n">Bot</span><span class="p">,</span> <span class="n">parser</span><span class="p">:</span> <span class="n">RaiderIOParser</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Here we initialize the RaiderIOCog</span>
+
+<span class="sd">        :param bot: the Toxicity bot</span>
+<span class="sd">        :param parser: the RaiderIOParser</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot</span> <span class="o">=</span> <span class="n">bot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">parser</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">spy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">character</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">realm</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method sends an embedded discord message when a !spy command is invoked</span>
+<span class="sd">        containing the basic information about the requested character</span>
+
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+<span class="sd">        :param character: the name of the character we want to grab the data about</span>
+<span class="sd">        :param realm: the name of the server of the said character</span>
+<span class="sd">        :param region: the name of the region of the server</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseChar</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">realm</span><span class="p">,</span> <span class="n">character</span><span class="p">)</span>
+        <span class="n">title_message</span> <span class="o">=</span> <span class="s2">&quot;We are spying on &quot;</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;faction&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;horde&#39;</span><span class="p">:</span>
+            <span class="n">adjective</span> <span class="o">=</span> <span class="s2">&quot;beautiful&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">adjective</span> <span class="o">=</span> <span class="s2">&quot;filthy&quot;</span>
+        <span class="n">embedded_message</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Embed</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title_message</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;They are a </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;gender&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+                                                                          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;race&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">. &quot;</span>
+                                                                          <span class="sa">f</span><span class="s2">&quot;They belong to the </span><span class="si">{</span><span class="n">adjective</span><span class="si">}</span><span class="s2"> &quot;</span>
+                                                                          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;faction&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                         <span class="n">color</span><span class="o">=</span><span class="mh">0x394A8C</span><span class="p">)</span>
+        <span class="n">embedded_message</span><span class="o">.</span><span class="n">set_thumbnail</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;thumbnail_url&#39;</span><span class="p">])</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embedded_message</span><span class="p">)</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">mythicscore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">character</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">realm</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method sends an embedded discord message when a !mythicscore command is invoked</span>
+<span class="sd">        containing the mythic score information about the requested character</span>
+
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+<span class="sd">        :param character: the name of the character we want to grab the data about</span>
+<span class="sd">        :param realm: the name of the server of the said character</span>
+<span class="sd">        :param region: the name of the region of the server</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">field_current_szn</span> <span class="o">=</span> <span class="s2">&quot;mythic_plus_scores_by_season:current&quot;</span>
+        <span class="n">field_previous_szn</span> <span class="o">=</span> <span class="s2">&quot;mythic_plus_scores_by_season:previous&quot;</span>
+        <span class="n">data_current_szn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseChar</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">realm</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">field_current_szn</span><span class="p">)</span>
+        <span class="n">data_previous_szn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseChar</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">realm</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">field_previous_szn</span><span class="p">)</span>
+        <span class="n">difference</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data_current_szn</span><span class="p">[</span><span class="s1">&#39;mythic_plus_scores_by_season&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;segments&#39;</span><span class="p">][</span><span class="s1">&#39;all&#39;</span><span class="p">][</span><span class="s1">&#39;score&#39;</span><span class="p">])</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">data_previous_szn</span><span class="p">[</span><span class="s1">&#39;mythic_plus_scores_by_season&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;segments&#39;</span><span class="p">][</span><span class="s1">&#39;all&#39;</span><span class="p">][</span><span class="s1">&#39;score&#39;</span><span class="p">])</span>
+        <span class="n">adjective</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">difference</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">adjective</span> <span class="o">=</span> <span class="s2">&quot;increase&quot;</span>
+        <span class="k">elif</span> <span class="n">difference</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">adjective</span> <span class="o">=</span> <span class="s2">&quot;decrease&quot;</span>
+        <span class="c1"># Here we want to make the colour of the embedded message be able to change</span>
+        <span class="c1"># depending on the mythic score</span>
+        <span class="n">colour</span> <span class="o">=</span> <span class="n">data_current_szn</span><span class="p">[</span><span class="s2">&quot;mythic_plus_scores_by_season&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;segments&#39;</span><span class="p">][</span><span class="s1">&#39;all&#39;</span><span class="p">][</span><span class="s1">&#39;color&#39;</span><span class="p">]</span>
+        <span class="n">sixteen_integer_hex</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">colour</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="n">readable_hex</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="n">sixteen_integer_hex</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># https://stackoverflow.com/questions/65402836/discord-py-using-variable-as-discord-embed-color</span>
+        <span class="n">embedded_message</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Embed</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;This is </span><span class="si">{</span><span class="n">data_current_szn</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;s current season&#39;s mythic score:&quot;</span><span class="p">,</span>
+                                         <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_current_szn</span><span class="p">[</span><span class="s1">&#39;mythic_plus_scores_by_season&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;segments&#39;</span><span class="p">][</span><span class="s1">&#39;all&#39;</span><span class="p">][</span><span class="s1">&#39;score&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                                     <span class="sa">f</span><span class="s2">&quot;Compared to the previous season &quot;</span>
+                                                     <span class="sa">f</span><span class="s2">&quot;it is a </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">difference</span><span class="p">)</span><span class="si">}</span><span class="s2"> points </span><span class="si">{</span><span class="n">adjective</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                         <span class="n">color</span><span class="o">=</span><span class="n">readable_hex</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embedded_message</span><span class="p">)</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">mythicranking</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">character</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">realm</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method sends an embedded discord message when a !mythicranking command is invoked</span>
+<span class="sd">        containing the mythic ranking information (world,region, realm) about the requested character</span>
+
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+<span class="sd">        :param character: the name of the character we want to grab the data about</span>
+<span class="sd">        :param realm: the name of the server of the said character</span>
+<span class="sd">        :param region: the name of the region of the server</span>
+<span class="sd">        :param spec: the role character is playing (healer, tank, dps)</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">field</span> <span class="o">=</span> <span class="s2">&quot;mythic_plus_ranks&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseChar</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">realm</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+
+        <span class="n">embedded_message</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Embed</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;This is </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;s ranking score:&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="mh">0x394A8C</span><span class="p">)</span>
+        <span class="n">embedded_message</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Overall:&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&gt; World: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_ranks&#39;</span><span class="p">][</span><span class="s1">&#39;overall&#39;</span><span class="p">][</span><span class="s1">&#39;world&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&gt;&quot;</span>
+                                                          <span class="sa">f</span><span class="s2">&quot; Region: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_ranks&#39;</span><span class="p">][</span><span class="s1">&#39;overall&#39;</span><span class="p">][</span><span class="s1">&#39;region&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&gt;&quot;</span>
+                                                          <span class="sa">f</span><span class="s2">&quot; Realm: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_ranks&#39;</span><span class="p">][</span><span class="s1">&#39;overall&#39;</span><span class="p">][</span><span class="s1">&#39;realm&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">embedded_message</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> class:&quot;</span><span class="p">,</span>
+                                   <span class="n">value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&gt; World: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_ranks&#39;</span><span class="p">][</span><span class="s1">&#39;class&#39;</span><span class="p">][</span><span class="s1">&#39;world&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&gt;&quot;</span>
+                                         <span class="sa">f</span><span class="s2">&quot; Region: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_ranks&#39;</span><span class="p">][</span><span class="s1">&#39;class&#39;</span><span class="p">][</span><span class="s1">&#39;region&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&gt;&quot;</span>
+                                         <span class="sa">f</span><span class="s2">&quot; Realm: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_ranks&#39;</span><span class="p">][</span><span class="s1">&#39;class&#39;</span><span class="p">][</span><span class="s1">&#39;realm&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">embedded_message</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s2">  spec:&quot;</span><span class="p">,</span>
+                                   <span class="n">value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&gt; World: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_ranks&#39;</span><span class="p">][</span><span class="sa">f</span><span class="s1">&#39;class_</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][</span><span class="s1">&#39;world&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&gt;&quot;</span>
+                                         <span class="sa">f</span><span class="s2">&quot; Region: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_ranks&#39;</span><span class="p">][</span><span class="sa">f</span><span class="s1">&#39;class_</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][</span><span class="s1">&#39;region&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&gt;&quot;</span>
+                                         <span class="sa">f</span><span class="s2">&quot; Realm: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_ranks&#39;</span><span class="p">][</span><span class="sa">f</span><span class="s1">&#39;class_</span><span class="si">{</span><span class="n">spec</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][</span><span class="s1">&#39;realm&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embedded_message</span><span class="p">)</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">lastruns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">character</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">realm</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method sends an embedded discord message when a !lastruns command is invoked</span>
+<span class="sd">        containing the information about three most recent runs of mythic dungeons done</span>
+<span class="sd">        by the requested character</span>
+
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+<span class="sd">        :param character: the name of the character we want to grab the data about</span>
+<span class="sd">        :param realm: the name of the server of the said character</span>
+<span class="sd">        :param region: the name of the region of the server</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">field</span> <span class="o">=</span> <span class="s2">&quot;mythic_plus_recent_runs&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseChar</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">realm</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+        <span class="n">embedded_message</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Embed</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;3 most recent mythic+ runs&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="mh">0x394A8C</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">run_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_recent_runs&#39;</span><span class="p">][</span><span class="n">run</span><span class="p">]</span>
+            <span class="n">clear_time_ms</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">run_data</span><span class="p">[</span><span class="s1">&#39;clear_time_ms&#39;</span><span class="p">])</span>
+            <span class="n">clear_time_formatted</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">clear_time_ms</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">60000</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="p">(</span><span class="n">clear_time_ms</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">60000</span><span class="p">)</span><span class="w"> </span><span class="o">//</span><span class="w"> </span><span class="mi">1000</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">run_data</span><span class="p">[</span><span class="s1">&#39;num_keystone_upgrades&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">num_keystone_upgrades</span> <span class="o">=</span> <span class="s2">&quot;yes&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">num_keystone_upgrades</span> <span class="o">=</span> <span class="s2">&quot;no&quot;</span>
+
+            <span class="n">embedded_message</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">run_data</span><span class="p">[</span><span class="s1">&#39;dungeon&#39;</span><span class="p">],</span>
+                <span class="n">value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&gt; Key level: </span><span class="si">{</span><span class="n">run_data</span><span class="p">[</span><span class="s1">&#39;mythic_level&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;&gt; Clear time: </span><span class="si">{</span><span class="n">clear_time_formatted</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;&gt; Key timed: </span><span class="si">{</span><span class="n">num_keystone_upgrades</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embedded_message</span><span class="p">)</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">bestruns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">character</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">realm</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method sends an embedded discord message when a !bestruns command is invoked</span>
+<span class="sd">        containing the information about three best runs of mythic dungeons done</span>
+<span class="sd">        by the requested character</span>
+
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+<span class="sd">        :param character: the name of the character we want to grab the data about</span>
+<span class="sd">        :param realm: the name of the server of the said character</span>
+<span class="sd">        :param region: the name of the region of the server</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">field</span> <span class="o">=</span> <span class="s2">&quot;mythic_plus_best_runs&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseChar</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">realm</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+        <span class="n">embedded_message</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Embed</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;3 best mythic+ runs&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="mh">0x394A8C</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">clear_time</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_best_runs&#39;</span><span class="p">][</span><span class="n">run</span><span class="p">][</span><span class="s1">&#39;clear_time_ms&#39;</span><span class="p">])</span>
+            <span class="n">minutes</span> <span class="o">=</span> <span class="n">clear_time</span> <span class="o">//</span> <span class="mi">60000</span>
+            <span class="n">seconds</span> <span class="o">=</span> <span class="p">(</span><span class="n">clear_time</span> <span class="o">%</span> <span class="mi">60000</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span>
+
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_best_runs&#39;</span><span class="p">][</span><span class="n">run</span><span class="p">][</span><span class="s1">&#39;clear_time_ms&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">minutes</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">seconds</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_best_runs&#39;</span><span class="p">][</span><span class="n">run</span><span class="p">][</span><span class="s1">&#39;num_keystone_upgrades&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_best_runs&#39;</span><span class="p">][</span><span class="n">run</span><span class="p">][</span><span class="s1">&#39;num_keystone_upgrades&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;yes&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_best_runs&#39;</span><span class="p">][</span><span class="n">run</span><span class="p">][</span><span class="s1">&#39;num_keystone_upgrades&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;no&quot;</span>
+
+            <span class="n">embedded_message</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_best_runs&#39;</span><span class="p">][</span><span class="n">run</span><span class="p">][</span><span class="s1">&#39;dungeon&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&gt;Key level: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_best_runs&#39;</span><span class="p">][</span><span class="n">run</span><span class="p">][</span><span class="s1">&#39;mythic_level&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;&gt;Clear time: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_best_runs&#39;</span><span class="p">][</span><span class="n">run</span><span class="p">][</span><span class="s1">&#39;clear_time_ms&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;&gt;Key timed: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_best_runs&#39;</span><span class="p">][</span><span class="n">run</span><span class="p">][</span><span class="s1">&#39;num_keystone_upgrades&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                      <span class="sa">f</span><span class="s2">&quot;&gt;Main affix: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_plus_best_runs&#39;</span><span class="p">][</span><span class="n">run</span><span class="p">][</span><span class="s1">&#39;affixes&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embedded_message</span><span class="p">)</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">affix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">locale</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        T</span>
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+
+<span class="sd">        :param region: the name of the region of the server</span>
+<span class="sd">        :param locale: the language in which you want them returned for full list https://raider.io/api</span>
+<span class="sd">        defaults to english</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">locale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseAffix</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseAffix</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">locale</span><span class="p">)</span>
+        <span class="n">embedded_message</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Embed</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;This week&#39;s affixes are:&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="mh">0x394A8C</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">affix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">embedded_message</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;affix_details&#39;</span><span class="p">][</span><span class="n">affix</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                                       <span class="n">value</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Description: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;affix_details&#39;</span><span class="p">][</span><span class="n">affix</span><span class="p">][</span><span class="s1">&#39;description&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embedded_message</span><span class="p">)</span>
+
+    <span class="nd">@commands</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">run_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">season</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method sends an embedded discord message when a !run command is invoked</span>
+<span class="sd">        containing the information about the requested run</span>
+
+<span class="sd">        :param ctx: represents the context in which a command is being invoked under</span>
+<span class="sd">        (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)</span>
+<span class="sd">        :param run_id: the link to the run</span>
+<span class="sd">        :param season: name of the season to retrieve (season-df-1, etc.). Defaults to current season.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">run_id</span> <span class="o">=</span> <span class="p">(</span><span class="n">run_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">season</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseMythicRun</span><span class="p">(</span><span class="s1">&#39;season-df-2&#39;</span><span class="p">,</span> <span class="n">run_id</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">ParseMythicRun</span><span class="p">(</span><span class="n">season</span><span class="p">,</span> <span class="n">run_id</span><span class="p">)</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
+            <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;clear_time_ms&#39;</span><span class="p">])</span> <span class="o">//</span> <span class="mi">60000</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span>
+            <span class="nb">int</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;clear_time_ms&#39;</span><span class="p">])</span> <span class="o">%</span> <span class="mi">60000</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;time_remaining_ms&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">descr</span> <span class="o">=</span> <span class="s2">&quot;yes&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">descr</span> <span class="o">=</span> <span class="s2">&quot;no&quot;</span>
+        <span class="n">embedded_message</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Embed</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;dungeon&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="mh">0x394A8C</span><span class="p">)</span>
+        <span class="n">embedded_message</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Keystone level:&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;mythic_level&#39;</span><span class="p">],</span> <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">embedded_message</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Time of completion:&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">roster_info</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;roster&#39;</span><span class="p">]:</span>
+            <span class="n">character</span> <span class="o">=</span> <span class="n">member</span><span class="p">[</span><span class="s1">&#39;character&#39;</span><span class="p">]</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="n">character</span><span class="p">[</span><span class="s1">&#39;spec&#39;</span><span class="p">]</span>
+            <span class="n">item_level</span> <span class="o">=</span> <span class="n">member</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">][</span><span class="s1">&#39;item_level_equipped&#39;</span><span class="p">]</span>
+
+            <span class="n">roster_info</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">character</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">spec</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">character</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">spec</span><span class="p">[</span><span class="s1">&#39;role&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">roster_info</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;**item level:** </span><span class="si">{</span><span class="n">item_level</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+        <span class="n">embedded_message</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Members:&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">roster_info</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">embedded_message</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Deaths:&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;logged_details&#39;</span><span class="p">][</span><span class="s1">&#39;deaths&#39;</span><span class="p">]))</span>
+        <span class="n">embedded_message</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Keystone timed:&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">descr</span><span class="p">)</span>
+
+        <span class="n">picture</span> <span class="o">=</span> <span class="s2">&quot;https://cdnassets.raider.io&quot;</span> <span class="o">+</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;dungeon&#39;</span><span class="p">][</span><span class="s1">&#39;icon_url&#39;</span><span class="p">]</span>
+        <span class="n">embedded_message</span><span class="o">.</span><span class="n">set_thumbnail</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">picture</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">embed</span><span class="o">=</span><span class="n">embedded_message</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Natalia Zychowicz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

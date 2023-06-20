@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WCLApiConnector &mdash; Toxicity Bot  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Toxicity Bot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">OOPproject</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Toxicity Bot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">WCLApiConnector</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for WCLApiConnector</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">ApiClient</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<span class="c1"># Here we are setting the API</span>
+<div class="viewcode-block" id="WCLApiConnector"><a class="viewcode-back" href="../WCLApiConnector.html#WCLApiConnector.WCLApiConnector">[docs]</a><span class="k">class</span> <span class="nc">WCLApiConnector</span><span class="p">(</span><span class="n">ApiClient</span><span class="p">):</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.warcraftlogs.com:443/api/v2/client&quot;</span>
+    <span class="n">oauth_url</span> <span class="o">=</span> <span class="s2">&quot;https://www.warcraftlogs.com/oauth/&quot;</span>
+    <span class="n">oauth_auth_url</span> <span class="o">=</span> <span class="n">oauth_url</span> <span class="o">+</span> <span class="s2">&quot;authorize&quot;</span>
+    <span class="n">oauth_token_url</span> <span class="o">=</span> <span class="n">oauth_url</span> <span class="o">+</span> <span class="s2">&quot;token&quot;</span>
+    <span class="n">current_oauth_token</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">current_oauth_token_expiry</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">refresh_time</span> <span class="o">=</span> <span class="mi">86400</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="p">,</span> <span class="n">secret_key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the WCL API connection</span>
+
+<span class="sd">        :param client_id: the WCL client ID created when creating an app for WCL</span>
+<span class="sd">        :param secret_key: the secret key DO NOT SHARE THE KEY</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">client_id</span> <span class="o">=</span> <span class="n">client_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="n">secret_key</span>
+        <span class="c1"># Create session</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">CreateOAuthSession</span><span class="p">()</span>
+
+<div class="viewcode-block" id="WCLApiConnector.CreateOAuthSession"><a class="viewcode-back" href="../WCLApiConnector.html#WCLApiConnector.WCLApiConnector.CreateOAuthSession">[docs]</a>    <span class="k">def</span> <span class="nf">CreateOAuthSession</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a new OAuth session for WCL</span>
+
+<span class="sd">        :return: this function does not return anything</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># This allows us to let requests.post take care of the OAuth</span>
+        <span class="n">requests</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;grant_type&quot;</span><span class="p">:</span> <span class="s2">&quot;client_credentials&quot;</span><span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">oauth_token_url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_key</span><span class="p">))</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_oauth_token</span> <span class="o">=</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;access_token&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_oauth_token_expiry</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">resp</span><span class="p">[</span><span class="s2">&quot;expires_in&quot;</span><span class="p">]))</span></div>
+
+<div class="viewcode-block" id="WCLApiConnector.RenewToken"><a class="viewcode-back" href="../WCLApiConnector.html#WCLApiConnector.WCLApiConnector.RenewToken">[docs]</a>    <span class="k">def</span> <span class="nf">RenewToken</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function checks if the access token has expired or not. If it has we create a new oauth session</span>
+<span class="sd">        We also refresh if the token is valid for less than one day</span>
+
+<span class="sd">        :return: this function does not return anything</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_oauth_token</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CreateOAuthSession</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_oauth_token_expiry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CreateOAuthSession</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_oauth_token_expiry</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh_time</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">CreateOAuthSession</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span></div>
+
+<div class="viewcode-block" id="WCLApiConnector.Request"><a class="viewcode-back" href="../WCLApiConnector.html#WCLApiConnector.WCLApiConnector.Request">[docs]</a>    <span class="k">def</span> <span class="nf">Request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This functions sends a request to the WCL API</span>
+
+<span class="sd">        :param url: full URL of the request</span>
+<span class="sd">        :param query: This is what we want to request from WCL</span>
+<span class="sd">        :return: It returns the response from the WCL API for the query we gave it</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">RenewToken</span><span class="p">()</span>  <span class="c1"># We always want to check if our access token is not expired.</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;authorization&quot;</span><span class="p">:</span> <span class="s2">&quot;Bearer </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_oauth_token</span><span class="p">),</span>
+                   <span class="s2">&quot;accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="n">query</span><span class="p">},</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>  <span class="c1"># This takes care of some error checking</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WCLApiConnector.RequestGuild"><a class="viewcode-back" href="../WCLApiConnector.html#WCLApiConnector.WCLApiConnector.RequestGuild">[docs]</a>    <span class="k">def</span> <span class="nf">RequestGuild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">guild_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">serv_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">server_reg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function sends the guild request to the WCL API</span>
+
+<span class="sd">        :param guild_name: name of the guild whose members we want to check</span>
+<span class="sd">        :param serv_name: name of the server of the guild</span>
+<span class="sd">        :param server_reg: region of the guild server</span>
+<span class="sd">        :return: It returns the response from the WCL API for the guild query we gave it</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            query {</span>
+<span class="s2">             guildData {</span>
+<span class="s2">              guild(name: </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">guild_name</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\&quot;</span><span class="s2">, serverSlug: </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">serv_name</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\&quot;</span><span class="s2">, serverRegion: </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;&quot;</span> \
+                <span class="o">+</span> <span class="n">server_reg</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\&quot;</span><span class="s2">){</span>
+<span class="s2">              members { data {name level faction </span><span class="si">{name}</span><span class="s2">}} </span>
+<span class="s2">              }</span>
+<span class="s2">                    }</span>
+<span class="s2">              }</span>
+<span class="s2">              &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="WCLApiConnector.RequestRanking"><a class="viewcode-back" href="../WCLApiConnector.html#WCLApiConnector.WCLApiConnector.RequestRanking">[docs]</a>    <span class="k">def</span> <span class="nf">RequestRanking</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">rank_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function sends the selected ranking request to the WCL API</span>
+
+<span class="sd">        :param log_code: the code of the log we want the API to read</span>
+<span class="sd">        :param rank_type: the type of ranking which we want to compare hps/dps</span>
+<span class="sd">        :return: returns the response from the WCL API for the ranking query we gave it</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            query {</span>
+<span class="s2">             reportData {</span>
+<span class="s2">              report(code: </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">log_code</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\&quot;</span><span class="s2">) {rankings(playerMetric : &quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">rank_type</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;)</span>
+<span class="s2">                    }</span>
+<span class="s2">                } </span>
+<span class="s2">              }&quot;&quot;&quot;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="WCLApiConnector.RequestFight"><a class="viewcode-back" href="../WCLApiConnector.html#WCLApiConnector.WCLApiConnector.RequestFight">[docs]</a>    <span class="k">def</span> <span class="nf">RequestFight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function sends the selected encounter request to the WCL API</span>
+
+<span class="sd">        :param log_code:  the code of the log we want the API to read</span>
+<span class="sd">        :return: returns the response from the WCL API for the fight query we gave it</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            query {</span>
+<span class="s2">             reportData {</span>
+<span class="s2">              report(code: </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">log_code</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\&quot;</span><span class="s2">) {fights {  </span>
+<span class="s2">                id</span>
+<span class="s2">                name    </span>
+<span class="s2">                bossPercentage</span>
+<span class="s2">                averageItemLevel</span>
+<span class="s2">                difficulty</span>
+<span class="s2">                encounterID</span>
+<span class="s2">                endTime</span>
+<span class="s2">                fightPercentage</span>
+<span class="s2">                kill</span>
+<span class="s2">                 }</span>
+<span class="s2">            }</span>
+<span class="s2">                    }</span>
+
+<span class="s2">              }&quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="WCLApiConnector.RequestEvent"><a class="viewcode-back" href="../WCLApiConnector.html#WCLApiConnector.WCLApiConnector.RequestEvent">[docs]</a>    <span class="k">def</span> <span class="nf">RequestEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fight_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function sends the selected event request to the WCL API</span>
+
+<span class="sd">        :param log_code:  the code of the log we want the API to read</span>
+<span class="sd">        :param data_type: type of the event we want to scrape,</span>
+<span class="sd">        https://www.warcraftlogs.com/v2-api-docs/warcraft/eventdatatype.doc.html &lt;- for future</span>
+<span class="sd">        possibility to expand the cog methods</span>
+<span class="sd">        :param fight_id: the fight encounters we want to analyze the data from</span>
+<span class="sd">        :return: returns the response from the WCL API for the event query we gave it</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                                    query { </span>
+<span class="s2">                                        reportData {</span>
+<span class="s2">                                            report(code: </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">log_code</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\&quot;</span><span class="s2">) {</span>
+<span class="s2">                                                events(dataType: &quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">data_type</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot; fightIDs: </span>
+<span class="s2">                                                [&quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">fight_id</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;] limit: 10000){ data } } } }&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WCLApiConnector.RequestPlayers"><a class="viewcode-back" href="../WCLApiConnector.html#WCLApiConnector.WCLApiConnector.RequestPlayers">[docs]</a>    <span class="k">def</span> <span class="nf">RequestPlayers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fight_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function sends the player details request to the WCL API</span>
+
+<span class="sd">        :param log_code:  the code of the log we want the API to read</span>
+<span class="sd">        :param fight_id: the fight encounters we want to analyze the data from</span>
+<span class="sd">        :return: returns the response from the WCL API for the event query we gave it</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                                            query { </span>
+<span class="s2">                                                reportData {</span>
+<span class="s2">                                                    report(code: </span><span class="se">\&quot;</span><span class="s2">&quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">log_code</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\&quot;</span><span class="s2">) {</span>
+<span class="s2">                                                        playerDetails(fightIDs: [&quot;&quot;&quot;</span> <span class="o">+</span> <span class="n">fight_id</span> <span class="o">+</span> <span class="s2">&quot;&quot;&quot;])</span>
+<span class="s2">                                                    }</span>
+<span class="s2">                                                } </span>
+<span class="s2">                                            }</span>
+<span class="s2">                                            &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base_url</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Natalia Zychowicz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WCLApiConnector module &mdash; Toxicity Bot  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="WCLCog module" href="WCLCog.html" />
+    <link rel="prev" title="ToxicityBot module" href="ToxicityBot.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Toxicity Bot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">OOPproject</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ApiClient.html">ApiClient module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ApiConnector.html">ApiConnector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Parser.html">Parser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RaiderIOApiConnector.html">RaiderIOApiConnector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RaiderIOCog.html">RaiderIOCog module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RaiderIOParser.html">RaiderIOParser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ToxicityBot.html">ToxicityBot module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">WCLApiConnector module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.CreateOAuthSession"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.CreateOAuthSession()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.RenewToken"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.RenewToken()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.Request"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.Request()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.RequestEvent"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.RequestEvent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.RequestFight"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.RequestFight()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.RequestGuild"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.RequestGuild()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.RequestPlayers"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.RequestPlayers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.RequestRanking"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.RequestRanking()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.base_url"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.base_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.current_oauth_token"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.current_oauth_token</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.current_oauth_token_expiry"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.current_oauth_token_expiry</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.oauth_auth_url"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.oauth_auth_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.oauth_token_url"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.oauth_token_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.oauth_url"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.oauth_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#WCLApiConnector.WCLApiConnector.refresh_time"><code class="docutils literal notranslate"><span class="pre">WCLApiConnector.refresh_time</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="WCLCog.html">WCLCog module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="WCLParser.html">WCLParser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Toxicity Bot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">OOPproject</a></li>
+      <li class="breadcrumb-item active">WCLApiConnector module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/WCLApiConnector.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-WCLApiConnector">
+<span id="wclapiconnector-module"></span><h1>WCLApiConnector module<a class="headerlink" href="#module-WCLApiConnector" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">WCLApiConnector.</span></span><span class="sig-name descname"><span class="pre">WCLApiConnector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">secret_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLApiConnector.html#WCLApiConnector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLApiConnector.WCLApiConnector" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="ApiClient.html#ApiClient.ApiClient" title="ApiClient.ApiClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">ApiClient</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.CreateOAuthSession">
+<span class="sig-name descname"><span class="pre">CreateOAuthSession</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLApiConnector.html#WCLApiConnector.CreateOAuthSession"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.CreateOAuthSession" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new OAuth session for WCL</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>this function does not return anything</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.RenewToken">
+<span class="sig-name descname"><span class="pre">RenewToken</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLApiConnector.html#WCLApiConnector.RenewToken"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.RenewToken" title="Permalink to this definition"></a></dt>
+<dd><p>This function checks if the access token has expired or not. If it has we create a new oauth session
+We also refresh if the token is valid for less than one day</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>this function does not return anything</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.Request">
+<span class="sig-name descname"><span class="pre">Request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLApiConnector.html#WCLApiConnector.Request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.Request" title="Permalink to this definition"></a></dt>
+<dd><p>This functions sends a request to the WCL API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> – full URL of the request</p></li>
+<li><p><strong>query</strong> – This is what we want to request from WCL</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>It returns the response from the WCL API for the query we gave it</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.RequestEvent">
+<span class="sig-name descname"><span class="pre">RequestEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fight_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLApiConnector.html#WCLApiConnector.RequestEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.RequestEvent" title="Permalink to this definition"></a></dt>
+<dd><p>This function sends the selected event request to the WCL API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_code</strong> – the code of the log we want the API to read</p></li>
+<li><p><strong>data_type</strong> – type of the event we want to scrape,</p></li>
+</ul>
+</dd>
+</dl>
+<p><a class="reference external" href="https://www.warcraftlogs.com/v2-api-docs/warcraft/eventdatatype.doc.html">https://www.warcraftlogs.com/v2-api-docs/warcraft/eventdatatype.doc.html</a> &lt;- for future
+possibility to expand the cog methods
+:param fight_id: the fight encounters we want to analyze the data from
+:return: returns the response from the WCL API for the event query we gave it</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.RequestFight">
+<span class="sig-name descname"><span class="pre">RequestFight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLApiConnector.html#WCLApiConnector.RequestFight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.RequestFight" title="Permalink to this definition"></a></dt>
+<dd><p>This function sends the selected encounter request to the WCL API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>log_code</strong> – the code of the log we want the API to read</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returns the response from the WCL API for the fight query we gave it</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.RequestGuild">
+<span class="sig-name descname"><span class="pre">RequestGuild</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">guild_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serv_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server_reg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLApiConnector.html#WCLApiConnector.RequestGuild"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.RequestGuild" title="Permalink to this definition"></a></dt>
+<dd><p>This function sends the guild request to the WCL API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>guild_name</strong> – name of the guild whose members we want to check</p></li>
+<li><p><strong>serv_name</strong> – name of the server of the guild</p></li>
+<li><p><strong>server_reg</strong> – region of the guild server</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>It returns the response from the WCL API for the guild query we gave it</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.RequestPlayers">
+<span class="sig-name descname"><span class="pre">RequestPlayers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fight_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLApiConnector.html#WCLApiConnector.RequestPlayers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.RequestPlayers" title="Permalink to this definition"></a></dt>
+<dd><p>This function sends the player details request to the WCL API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_code</strong> – the code of the log we want the API to read</p></li>
+<li><p><strong>fight_id</strong> – the fight encounters we want to analyze the data from</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returns the response from the WCL API for the event query we gave it</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.RequestRanking">
+<span class="sig-name descname"><span class="pre">RequestRanking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_code</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/WCLApiConnector.html#WCLApiConnector.RequestRanking"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.RequestRanking" title="Permalink to this definition"></a></dt>
+<dd><p>This function sends the selected ranking request to the WCL API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_code</strong> – the code of the log we want the API to read</p></li>
+<li><p><strong>rank_type</strong> – the type of ranking which we want to compare hps/dps</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>returns the response from the WCL API for the ranking query we gave it</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.base_url">
+<span class="sig-name descname"><span class="pre">base_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.warcraftlogs.com:443/api/v2/client'</span></em><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.base_url" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.current_oauth_token">
+<span class="sig-name descname"><span class="pre">current_oauth_token</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.current_oauth_token" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.current_oauth_token_expiry">
+<span class="sig-name descname"><span class="pre">current_oauth_token_expiry</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.current_oauth_token_expiry" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.oauth_auth_url">
+<span class="sig-name descname"><span class="pre">oauth_auth_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.warcraftlogs.com/oauth/authorize'</span></em><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.oauth_auth_url" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.oauth_token_url">
+<span class="sig-name descname"><span class="pre">oauth_token_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.warcraftlogs.com/oauth/token'</span></em><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.oauth_token_url" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.oauth_url">
+<span class="sig-name descname"><span class="pre">oauth_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://www.warcraftlogs.com/oauth/'</span></em><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.oauth_url" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="WCLApiConnector.WCLApiConnector.refresh_time">
+<span class="sig-name descname"><span class="pre">refresh_time</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">86400</span></em><a class="headerlink" href="#WCLApiConnector.WCLApiConnector.refresh_time" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ToxicityBot.html" class="btn btn-neutral float-left" title="ToxicityBot module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="WCLCog.html" class="btn btn-neutral float-right" title="WCLCog module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Natalia Zychowicz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

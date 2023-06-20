@@ -17,6 +17,7 @@ class WCLApiConnector(ApiClient):
     def __init__(self, client_id, secret_key):
         """
         Initialize the WCL API connection
+
         :param client_id: the WCL client ID created when creating an app for WCL
         :param secret_key: the secret key DO NOT SHARE THE KEY
         """
@@ -30,6 +31,7 @@ class WCLApiConnector(ApiClient):
     def CreateOAuthSession(self):
         """
         Creates a new OAuth session for WCL
+
         :return: this function does not return anything
         """
         # This allows us to let requests.post take care of the OAuth
@@ -44,6 +46,7 @@ class WCLApiConnector(ApiClient):
         """
         This function checks if the access token has expired or not. If it has we create a new oauth session
         We also refresh if the token is valid for less than one day
+
         :return: this function does not return anything
         """
 
@@ -59,6 +62,7 @@ class WCLApiConnector(ApiClient):
     def Request(self, url: str, query: str):
         """
         This functions sends a request to the WCL API
+
         :param url: full URL of the request
         :param query: This is what we want to request from WCL
         :return: It returns the response from the WCL API for the query we gave it
@@ -75,6 +79,7 @@ class WCLApiConnector(ApiClient):
     def RequestGuild(self, guild_name: str, serv_name: str, server_reg: str):
         """
         This function sends the guild request to the WCL API
+
         :param guild_name: name of the guild whose members we want to check
         :param serv_name: name of the server of the guild
         :param server_reg: region of the guild server
@@ -97,6 +102,7 @@ class WCLApiConnector(ApiClient):
     def RequestRanking(self, log_code: str, rank_type: str):
         """
         This function sends the selected ranking request to the WCL API
+
         :param log_code: the code of the log we want the API to read
         :param rank_type: the type of ranking which we want to compare hps/dps
         :return: returns the response from the WCL API for the ranking query we gave it
@@ -116,6 +122,7 @@ class WCLApiConnector(ApiClient):
     def RequestFight(self, log_code: str):
         """
         This function sends the selected encounter request to the WCL API
+
         :param log_code:  the code of the log we want the API to read
         :return: returns the response from the WCL API for the fight query we gave it
         """
@@ -143,6 +150,7 @@ class WCLApiConnector(ApiClient):
     def RequestEvent(self, log_code: str, data_type: str, fight_id: str):
         """
         This function sends the selected event request to the WCL API
+
         :param log_code:  the code of the log we want the API to read
         :param data_type: type of the event we want to scrape,
         https://www.warcraftlogs.com/v2-api-docs/warcraft/eventdatatype.doc.html <- for future
@@ -161,6 +169,7 @@ class WCLApiConnector(ApiClient):
     def RequestPlayers(self, log_code: str, fight_id: str):
         """
         This function sends the player details request to the WCL API
+
         :param log_code:  the code of the log we want the API to read
         :param fight_id: the fight encounters we want to analyze the data from
         :return: returns the response from the WCL API for the event query we gave it
