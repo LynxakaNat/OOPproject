@@ -29,6 +29,8 @@ to log in the bot
 On the UML diagram (see Toxicity.drawio.png) we have class Toxicity Bot which will initialize the bot and connect it with the desired server channel.
 Going down, we have an abstract class ApiClient that has a Request() method which will be the basis of how requests work in both of the APIs. 
 WCLApiConnector and RaiderIOApiConnector inherit from it, but both APIs work differently. Even though the diagram looks symmetrical, **the symmetry breaks because of the output of the methods**.
+We also have an abstract Parser class which both of the parsers inherit from.
+Cogs inherit directly from commands.Cog metaclass.
 
 #### Warcraft Logs API classes
 Let's focus on the Warcraft Logs API classes for now. We have the Connector class which requires client ID and a secret key acquired from the warcraft logs website. The API technology used here is OAuth 2.0, that's why we must create the OAuth session and also take care of the expiry date of the token. We can only send one request to the API at a time. Then moving on we have a WCLParser class that will parse the JSON file given to us by the API and change it to a Pandas library DataFrame structure. Then finally in a WCLCog (which inherits discord.cog) it will transform the data given into either a graph or a simple discord message when a command will be written in the discord channel.
