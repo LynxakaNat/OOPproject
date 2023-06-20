@@ -1,13 +1,29 @@
 # Toxicity - "bringing toxic back to wow"
 
-
-### Elevator pitch
 Have you always wanted to flex your DPS numbers to your friends? Had the desire to scream at your healers for not doing enough HPS (because surely your death is their fault)? 
 Well, thanks to Toxicity now you can! Visualize the data of your latest wow raid and send it straight into your raid channel. Assert your dominance!
 (warning, this bot is for god-gamers only)
 
 ### Project description
 The main goal of the project is to create a discord bot, which will compare the individual and group performance in the MMORPG World of Warcraft. The bot will pull data from the raider.io API (https://raider.io/) and the Warcraft Logs API (https://www.warcraftlogs.com/) and will process it and give out statistics about the requested performance.
+
+### How to run
+Please refer to this tutorial by reactiflux here on github on how to set up and obtain the key to the discord bot
+https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token 
+Go to this site https://www.warcraftlogs.com/api/docs in order to obtain the key and the client id for the warcraft logs API.
+Clone the repository using terminal or Github Desktop to your computer.
+In terminal change directory to the project folder and use command to get the needed libraries:
+``` 
+pip install -r requirements.txt
+```
+
+To run the bot, fill in the bot_token with your own secret token obtained from the discord developer site in the main class.
+In the Toxicity Bot class fill in the client_id using the Warcraft Logs client ID and the secret_key using the client secret from the Warcraft Logs site.
+Use the command:
+```
+python3 main.py
+```
+to log in the bot
 
 ### UML diagram description
 On the UML diagram (see Toxicity.drawio.png) we have class Toxicity Bot which will initialize the bot and connect it with the desired server channel.
