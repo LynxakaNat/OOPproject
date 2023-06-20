@@ -7,8 +7,8 @@ class ToxicityBot(commands.Bot):
     """
     This is the class of the Toxicity bot, here we initialize and log in the bot
     """
-    client_id = "9932bc5b-bba5-45e8-bfc4-82cf2c4c4877"
-    secret_key = "qvukkWRBpLLgumxlFrP82zC8mEeDLmFeoPcIXgdj"
+    client_id = None # fill in
+    secret_key = None # fill in
     wcl_client = None
     wcl_parser = None
     raider_parser = None
