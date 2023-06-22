@@ -187,10 +187,11 @@ class RaiderIOCog(commands.Cog):
     @commands.command()
     async def affix(self, ctx, region: str, locale: str = None):
         """
-        T
+        This method sends an embedded discord message when an !affix command is invoked
+        containing the information about the region's affixes
+        
         :param ctx: represents the context in which a command is being invoked under
         (https://discordpy.readthedocs.io/en/stable/ext/commands/api.html#context)
-
         :param region: the name of the region of the server
         :param locale: the language in which you want them returned for full list https://raider.io/api
         defaults to english
